@@ -10,6 +10,7 @@ import { setUID } from "../stores/store";
 import { fetchFun } from "../js/fetchFun";
 import { settingOnLoginStorage } from "../js/settingOnLoginStorage"
 import {inputCheckName ,inputCheckPass} from "../js/inputCheckers" 
+import { Link } from "@nextui-org/react";
 //import InvalidInputModal from "../components/InvalidInputModal"
 
 export default function Login() {
@@ -111,7 +112,12 @@ export default function Login() {
               {" "}
               Login{" "}
             </Button>
+            <Spacer y={1} />
+            <Link href="/Registration" style={{color: theme.colors.primary.value, margin: 'auto',}}>
+      Don't you have an account? Go to registration 
+    </Link>
           </Col>
+
         </Container>
       </div>
     </>

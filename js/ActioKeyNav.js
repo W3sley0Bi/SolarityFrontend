@@ -1,4 +1,4 @@
-export function ActioKeyNav(key) {
+export function ActioKeyNav(key,uid) {
   switch (key) {
     case "logout":
       localStorage.removeItem("token");
@@ -6,7 +6,8 @@ export function ActioKeyNav(key) {
       localStorage.removeItem("role");
       window.location.replace("/Login"); //check if this fun is working
       break;
-
+    case "profile":
+      window.location.replace(`/userFolder/${uid}/ProfilePage`)
     default:
       break;
   }

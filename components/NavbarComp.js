@@ -145,7 +145,7 @@ export default function NavbarComp(){
                 <Dropdown.Menu
                   aria-label="User menu actions"
                   color="primary"
-                  onAction={(actionKey) => ActioKeyNav(actionKey)}
+                  onAction={(actionKey) => ActioKeyNav(actionKey,uid)}
                 >
                   <Dropdown.Item key="profile" css={{ height: "$18" }}>
                     <Text b color="inherit" css={{ d: "flex" }}>

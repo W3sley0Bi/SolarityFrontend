@@ -1,3 +1,6 @@
+
+//delete and bug fixing of this
+
 import React, { useContext, useRef, useState } from "react";
 
 const CanvasContext = React.createContext();
