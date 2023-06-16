@@ -18,25 +18,16 @@ export default function Registration(){
     const [inputStatusPassword, setInputStatusPassword] = useState("");
     const token = useSelector((state) => state.token.value);
     const uid = useSelector((state) => state.uid.value);
-    const role = useSelector((state) => state.role.value);
-  // il ruolo viene aggiunto in automatico nella query dal db
+    const options = [1,2,3,4]
+    const [role, setRole] = useState(2);
   const router = useRouter()
 
-  useMemo(() => {
-    (async () => {
-      //user role
-      if (role*1 === 2) {
-        router.push(`/userFolder/${uid}`);
-      }
-
-    })();
-  },[]);
 
   const handleSubmit = async (event) => {
   if (inputCheckName(username) == "error" &&  inputCheckPass(username) == "error" || username == "" && password == ""){
     alert("Input values not valid")
   }else{ 
-    const res = await fetchFun("/registration", "POST", {username,password}, token);
+    const res = await fetchFun("/registration", "POST", {username,password,role}, token);
         alert(`user added correctly`)
         router.push('/')
 
@@ -77,12 +68,16 @@ export default function Registration(){
   <Spacer y={1.2} />
   </Col>
   <Col align="center">
-  <select defaultValue={2}>
-    <option value="1" key="1">1</option>
-    <option value="2" key="2">2</option>
-    <option value="3" key="3">3</option>
-    <option value="4" key="4">4</option>
-  </select>
+  <select
+  value={role} 
+  onChange={e => setRole(e.target.value)}>
+        {options.map((value) => (
+          <option value={value} key={value}>
+            {value}
+          </option>
+        ))}
+      </select>
+
   <Spacer y={1.2} />
     </Col>
 

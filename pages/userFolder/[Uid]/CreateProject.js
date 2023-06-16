@@ -12,9 +12,8 @@ export default function AddFiles(){
 
     const router = useRouter()
     const { Uid } = router.query
-    const [folder, setFolder] = useState("")
-    const [files, setFiles] = useState([])
-    const [folders, setFolders] = useState("")
+    const [project, setProject] = useState("")
+
     const token = useSelector((state) => state.token.value);
     const uid = useSelector((state) => state.uid.value);
     const role = useSelector((state) => state.role.value);
@@ -28,7 +27,7 @@ export default function AddFiles(){
     (async () => {
 
 
-        if (role != 1) {
+        if (role == 4) {
 
             router.push(`/userFolder/${uid}`);
           }
@@ -42,17 +41,10 @@ export default function AddFiles(){
     const handleSubmit = async () => {
 
         const formData = new FormData(); // create a new FormData instance
-        formData.append("folder", folder); // append the folder value
-        
-        //looping trough multiple files
-        for (let i = 0; i < files.length; i++) {
-            formData.append(`file${i}`, files[i]);
-        }
-        formData.append("idUser", Uid)
-
+        formData.append("project", project); 
 
        // don not change this post
-        axios.post(`${process.env.NEXT_PUBLIC_NODE_SERVER}/${Uid}/addFolder`, formData, {
+        axios.post(`${process.env.NEXT_PUBLIC_NODE_SERVER}/${Uid}/createProject`, formData, {
             headers:{
                 Authorization: token,
                
@@ -70,31 +62,12 @@ export default function AddFiles(){
 
     };
 
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({
-        onDrop: acceptedFiles => {
-            setFiles(acceptedFiles)
-        },
-        multiple: true,
-        accept: 'image/*, .pdf',
-    })
-//.doc, .docx, .xls, .xlsx, .csv
     return(
         
         <>
         <Layout>
-            <Input clearable bordered labelPlaceholder="FolderName" helperText="Required" required={true} name='Foldername' type="text" value={folder} onChange={(e) => setFolder(e.target.value)} />
-
-            <div {...getRootProps()} style={{padding: '20px', border: '2px dashed #ccc', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', margin: '20px 0'}}>
-                <input {...getInputProps()} />
-                {isDragActive ? 
-                    <p>Drop the files here ...</p> :
-                    <p>Drag 'n' drop some files here, or click to select files</p>
-                }
-            </div>
-
-            {files && files.map(file => (
-                <p key={file.name}>{file.name}</p>
-            ))}
+            <Input clearable bordered labelPlaceholder="Project Name" helperText="Required" required={true} name='ProjectName' type="text" value={project} onChange={(e) => setProject(e.target.value)} />
+        
             <Button onClick={handleSubmit}> Send </Button>   
         </Layout>
         </>

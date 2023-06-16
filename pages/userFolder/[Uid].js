@@ -26,8 +26,8 @@ export default function UserFolders() {
 
     (async () => {
       //user role
-      if(role == 1){
-        let addFolderbutton = <RedirectHandler route={`${Uid}/AddFolder`}> + AddFolder </RedirectHandler>
+      if(role != 4 ){
+        let addFolderbutton = <RedirectHandler route={`${Uid}/CreateProject`}> + Create Project </RedirectHandler>
         setAddFolder(addFolderbutton)
       }
 
