@@ -69,11 +69,11 @@ export default function NavbarComp(){
               }}
             >
               {/* <AcmeLogo /> */}
-              <Text hideIn="xs" >
-              <img  src="https://lk-distribution.fr/wp-content/uploads/2014/12/cropped-logo-LK-300.png" style={logo} alt="" />
-              </Text>
+              <h1 b color="yellow" hideIn="xs" >
+              Solarity
+              </h1>
               <Spacer y={2}/>
-              <Text b color="inherit" hideIn="xs">
+              <Text  color="inherit" hideIn="xs">
                  Beta v1.0.0
   
               </Text>

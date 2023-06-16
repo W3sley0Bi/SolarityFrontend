@@ -1,6 +1,8 @@
 {
   "/_app": "pages/_app.js",
-  "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/Registration": "pages/Registration.js"
+  "/_document": "pages/_document.js",
+  "/userFolder/[Uid]": "pages/userFolder/[Uid].js",
+  "/userFolder/[Uid]/[ProjectContent]": "pages/userFolder/[Uid]/[ProjectContent].js",
+  "/userFolder/[Uid]/CreateProject": "pages/userFolder/[Uid]/CreateProject.js"
 }

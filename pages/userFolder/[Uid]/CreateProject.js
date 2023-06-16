@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import { Input } from "@nextui-org/react";
+import { Input, Spacer } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
-import { useDropzone } from 'react-dropzone';
 import Layout from '../../../components/Layout';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFun } from "../../../js/fetchFun";
@@ -12,7 +11,8 @@ export default function AddFiles(){
 
     const router = useRouter()
     const { Uid } = router.query
-    const [project, setProject] = useState("")
+    const [projectName, setProjectName] = useState("")
+    const [projectDuration, setProjectDuration] = useState(30)
 
     const token = useSelector((state) => state.token.value);
     const uid = useSelector((state) => state.uid.value);
@@ -40,19 +40,16 @@ export default function AddFiles(){
     //sumbit forma data
     const handleSubmit = async () => {
 
-        const formData = new FormData(); // create a new FormData instance
-        formData.append("project", project); 
-
        // don not change this post
-        axios.post(`${process.env.NEXT_PUBLIC_NODE_SERVER}/${Uid}/createProject`, formData, {
+        axios.post(`${process.env.NEXT_PUBLIC_NODE_SERVER}/${Uid}/createProject`, {uid,projectName,projectDuration}, {
             headers:{
                 Authorization: token,
-               
             }
         })
-        .then(res=> {
+        .then(res => {
+            console.log(res)
             if(res.status == 200){
-                alert("files add correctly")
+                alert("Project Created Correctly")
                 router.push(`/userFolder/${Uid}`)
             }
         })
@@ -66,8 +63,11 @@ export default function AddFiles(){
         
         <>
         <Layout>
-            <Input clearable bordered labelPlaceholder="Project Name" helperText="Required" required={true} name='ProjectName' type="text" value={project} onChange={(e) => setProject(e.target.value)} />
-        
+            
+            <Input clearable bordered labelPlaceholder="Project Name" required={true} name='ProjectName' type="text" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
+            <Spacer y={1} />
+            <Input bordered labelPlaceholder="Duration" required={true} name='duration' type="number" value={projectDuration} onChange={(e) => setProjectDuration(e.target.value)} />
+            <Spacer y={1} />
             <Button onClick={handleSubmit}> Send </Button>   
         </Layout>
         </>
