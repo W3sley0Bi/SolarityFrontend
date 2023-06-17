@@ -7,8 +7,10 @@ import { fetchFun } from '../../../js/fetchFun';
 import RedirectHandler from "../../../components/RedirectHandler";
 import { Container, Row, Col, Spacer } from "@nextui-org/react";
 import Loader from "../../../components/Loader"
-import Map from "../../../components/Map"
 import 'leaflet/dist/leaflet.css'
+import dynamic from "next/dynamic"
+
+const MyMap = dynamic(() => import("../../../components/Map"), { ssr:false })
 
 export default function ProjectContent(){
 
@@ -78,6 +80,7 @@ export default function ProjectContent(){
             {formButton}
             {addFile}
         <Container gap={2} style={{ flexDirection: "column" }}>
+          <MyMap />
           <br />
           {data}
         </Container>

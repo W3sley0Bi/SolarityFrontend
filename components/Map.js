@@ -11,11 +11,8 @@ import { Grid } from "@nextui-org/react";
 import { Spacer } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Card, Text } from "@nextui-org/react";
-<<<<<<< HEAD
 import 'leaflet/dist/leaflet.css';
-=======
-// import "leaflet/dist/images/marker-shadow.png";
->>>>>>> 864e209888b55b3f699a053141d7c42e96fc4192
+
 
 
 export default function showMap(props) {
