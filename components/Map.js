@@ -13,6 +13,7 @@ import { Input } from "@nextui-org/react";
 import { Card, Text } from "@nextui-org/react";
 import "leaflet/dist/images/marker-shadow.png";
 
+
 export default function showMap(props) {
   const [searchQ, setSearchQ] = useState();
   const [queryRes, setQueryRes] = useState();

@@ -78,7 +78,6 @@ export default function ProjectContent(){
             {formButton}
             {addFile}
         <Container gap={2} style={{ flexDirection: "column" }}>
-          <Map></Map>
           <br />
           {data}
         </Container>
