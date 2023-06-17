@@ -2,6 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/userFolder/[Uid]/[ProjectContent]": "pages/userFolder/[Uid]/[ProjectContent].js",
-  "/userFolder/[Uid]": "pages/userFolder/[Uid].js"
+  "/userFolder/[Uid]/[ProjectContent]": "pages/userFolder/[Uid]/[ProjectContent].js"
 }
