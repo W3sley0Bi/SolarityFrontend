@@ -11,7 +11,7 @@ import { Grid } from "@nextui-org/react";
 import { Spacer } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Card, Text } from "@nextui-org/react";
-
+import 'leaflet/dist/leaflet.css';
 
 
 
