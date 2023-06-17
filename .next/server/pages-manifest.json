@@ -2,12 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
-  "/Login": "pages/Login.js",
-  "/userFolder/[Uid]/CreateProject": "pages/userFolder/[Uid]/CreateProject.js",
+  "/userFolder/[Uid]/ProfilePage": "pages/userFolder/[Uid]/ProfilePage.js",
   "/": "pages/index.js",
   "/userFolder/[Uid]": "pages/userFolder/[Uid].js",
-=======
->>>>>>> 1c7104968976f8b8c9767411c142cd75e8aff27f
-  "/userFolder/[Uid]/[ProjectContent]": "pages/userFolder/[Uid]/[ProjectContent].js"
+  "/Login": "pages/Login.js"
 }

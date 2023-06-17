@@ -7,7 +7,7 @@ import Layout from '../../../components/Layout';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFun } from "../../../js/fetchFun";
 
-export default function AddFiles(){
+export default function CreateProject(){
 
     const router = useRouter()
     const { Uid } = router.query

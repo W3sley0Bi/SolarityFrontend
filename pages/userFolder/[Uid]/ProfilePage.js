@@ -13,7 +13,7 @@ import Loader from "../../../components/Loader"
 import NoData from "../../../components/NoData";
 import { ActioKeyNav } from "../../../js/ActioKeyNav";
 
-export default function UserFolders() {
+export default function ProfilePage() {
   const router = useRouter();
   const { Uid } = router.query;
   const [folders, setFolders] = useState(<Loader></Loader>);

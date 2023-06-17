@@ -20,12 +20,10 @@ export default function Home() {
 
 
   useEffect(() => {
-    if(navigator != undefined){
-      console.log(navigator.platform) 
-      console.log(navigator.userAgent)}
+
     (async () => {
       //user role
-      if (role*1 === 2) {
+      if (role*1 !== 1) {
         router.push(`/userFolder/${uid}`);
       }else{
       const res = await fetchFun("/workers", "GET", {}, token);
