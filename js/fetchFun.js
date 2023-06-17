@@ -1,7 +1,7 @@
 // cambaire tutte le get in post poi
-import axios from "axios";
+import axios, { all } from "axios";
 
-export const fetchFun = async (url, method, body, token, ) => {
+export const fetchFun = async (url, method, body, token) => {
   let res;
 
   switch (method) {
@@ -33,13 +33,33 @@ export const fetchFun = async (url, method, body, token, ) => {
     default:
       break;
   }
-  
+
   if (!res.ok) {
-      //  if (res.status === 401) {
-      //   router.push("/Login");
-      //   return 
-      // }
-    return res.status 
+    //  if (res.status === 401) {
+    //   router.push("/Login");
+    //   return
+    // }
+    return res.status;
+  } else {
+    return await res.json();
+  }
+};
+
+export const fetchFast = async (url, method) => {
+  let res;
+
+  res = await fetch(`http://localhost:8000${url}`, {
+    method: `${method}`,
+    headers: {
+    }
+  });
+
+  if (!res.ok) {
+    //  if (res.status === 401) {
+    //   router.push("/Login");
+    //   return
+    // }
+    return res.status;
   } else {
     return await res.json();
   }
