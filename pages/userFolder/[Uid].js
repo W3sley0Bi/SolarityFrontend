@@ -29,9 +29,12 @@ export default function UserFolders() {
       if(role != 4 ){
         let addFolderbutton = <RedirectHandler route={`${Uid}/CreateProject`}> + Create Project </RedirectHandler>
         setAddFolder(addFolderbutton)
+      }else{
+        let addFolderbutton = <RedirectHandler route={`${Uid}/CreateProduct`}> + Create Product </RedirectHandler>
+        setAddFolder(addFolderbutton)
       }
 
-      if (Uid == uid || role == 1) {
+      if ((Uid == uid || role == 1) && role != 4) {
         const res = await fetchFun(`/userFolder/${Uid}`, "GET", {}, token);
         if (res === 401) {
           router.push("/Login");
@@ -39,14 +42,30 @@ export default function UserFolders() {
           if(res.length > 0){
             console.log(res)
           const folders = res.map((item) => (
-            <Folder key={item.idProject} idProject={item.idProject} Uid={Uid} name={item.name}> </Folder>
+            <Folder key={item.idProject} id={item.idProject} Uid={Uid} name={item.name}> </Folder>
           ));
           setFolders(folders);
           }else{
             setFolders(<NoData></NoData>);
           }
         }
-      } else {
+      } else if(role == 4){
+        const res = await fetchFun(`/companyFolder/${Uid}`, "GET", {}, token);
+        if (res === 401) {
+          router.push("/Login");
+        } else {
+          if(res.length > 0){
+            console.log(res)
+          const folders = res.map((item) => (
+            <Folder key={item.product_id} id={item.product_id} Uid={Uid} name={item.name}> </Folder>
+          ));
+          setFolders(folders);
+          }else{
+            setFolders(<NoData></NoData>);
+          }
+        }
+      }
+      else{
         router.push(`/userFolder/${uid}`);
       }
     })();
