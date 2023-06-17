@@ -3,7 +3,7 @@ import { TileLayer } from "react-leaflet/TileLayer";
 import { useMap } from "react-leaflet/hooks";
 import { Marker } from "react-leaflet";
 import { Popup } from "react-leaflet";
-import { useState, useEffect } from "react";
+import { useState, ListView } from "react";
 import Layout from "../components/Layout";
 import { Button } from "@nextui-org/react";
 import { fetchFast } from "../js/fetchFun";
@@ -12,14 +12,17 @@ import { Spacer } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Card, Text } from "@nextui-org/react";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'leaflet/dist/leaflet.css';
 =======
 // import "leaflet/dist/images/marker-shadow.png";
 >>>>>>> 864e209888b55b3f699a053141d7c42e96fc4192
+=======
+import "leaflet/dist/images/marker-shadow.png";
+>>>>>>> parent of 1c72423 (Map Window Fix)
 
 
 export default function showMap(props) {
-
   const [searchQ, setSearchQ] = useState();
   const [queryRes, setQueryRes] = useState();
   const [foundLocation, setFound] = useState(false);
@@ -77,7 +80,7 @@ export default function showMap(props) {
           width: "90%",
           height: "70vh",
           marginTop: "4vh",
-          zIndex: 1,
+          zindex: "1",
         }}
         center={[50, 12]}
         zoom={13}
@@ -93,7 +96,7 @@ export default function showMap(props) {
               queryRes["position"]["lat"],
               queryRes["position"]["long"],
             ]}
-            >
+          >
             <Popup>
               A pretty CSS3 popup. <br /> Easily customizable.
             </Popup>
