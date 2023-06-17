@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
+import FileModal from "../../../components/FileModal"
 import Layout from '../../../components/Layout';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFun } from '../../../js/fetchFun';
 import RedirectHandler from "../../../components/RedirectHandler";
 import { Container, Row, Col, Spacer } from "@nextui-org/react";
 import Loader from "../../../components/Loader"
-// import Map from "../../../components/Map"
+import Map from "../../../components/Map"
 import 'leaflet/dist/leaflet.css'
 
 export default function ProjectContent(){
