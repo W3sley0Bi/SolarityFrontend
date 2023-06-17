@@ -14,7 +14,7 @@ export default function ProjectContent(){
 
     const router = useRouter()
     const { Uid,ProjectContent } = router.query
-    const [file, setFile] = useState(<Loader></Loader>)
+    const [data, setData] = useState(<Loader></Loader>)
     const [formButton,setFormButton] = useState()
     const [addFile,setAddFile] = useState()
     const token = useSelector((state) => state.token.value);
@@ -33,14 +33,34 @@ export default function ProjectContent(){
             router.push("/Login");
           } else {
                 console.log(res)
-                const file = res.map(item => 
-                    <div></div>
+                const data = res.result.map(item => 
+                    <div>
+                    field_product_id: {item.field_product_id}
+                    <br/>
+                    project_id: {item.project_id}
+                    <br/>
+                    lon:{item.lon}
+                    <br/>
+                    lat: {item.lat}
+                    <br/>
+                    utc_offset: {item.utc_offset}
+                    <br/>
+                    tilt: {item.tilt}
+                    <br/>
+                    orientation: {item.orientation}
+                    <br/>
+                    company_product_id: {item.company_product_id}
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    </div>
                   //map view
                   // <FileModal key={item.idFile} idFile={item.idFile} file_name={item.file_name} file_data={item.file_data} file_type={item.file_type} ></FileModal>
                     
                     );
 
-                    setFile(file) 
+                    setData(data) 
             
                 }
 
@@ -60,7 +80,7 @@ export default function ProjectContent(){
         <Container gap={2} style={{ flexDirection: "column" }}>
           <Map></Map>
           <br />
-          {file}
+          {data}
         </Container>
         </Layout>
         </>
