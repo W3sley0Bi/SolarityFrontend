@@ -7,5 +7,8 @@
   "/_error": "pages/_error.js",
   "/userFolder/[Uid]/[ProjectContent]": "pages/userFolder/[Uid]/[ProjectContent].js",
   "/userFolder/[Uid]": "pages/userFolder/[Uid].js"
+<<<<<<< HEAD
+>>>>>>> parent of 1c72423 (Map Window Fix)
+=======
 >>>>>>> parent of 1c72423 (Map Window Fix)
 }

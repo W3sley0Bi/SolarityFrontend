@@ -11,6 +11,7 @@ self["webpackHotUpdate_N_E"]("webpack",{},
 /******/ function(__webpack_require__) { // webpackRuntimeModules
 /******/ /* webpack/runtime/getFullHash */
 /******/ !function() {
+<<<<<<< HEAD
 <<<<<<< HEAD:.next/static/webpack/webpack.1453f67417ff1b31.hot-update.js
 <<<<<<< HEAD:.next/static/webpack/webpack.1453f67417ff1b31.hot-update.js
 /******/ 	__webpack_require__.h = function() { return "f43d33d1be0435dd"; }
@@ -24,6 +25,13 @@ self["webpackHotUpdate_N_E"]("webpack",{},
 =======
 /******/ 	__webpack_require__.h = function() { return "2572f3de2d8b7b5d"; }
 >>>>>>> parent of 1c72423 (Map Window Fix):.next/static/webpack/webpack.0a641b921856eac3.hot-update.js
+=======
+<<<<<<<< HEAD:.next/static/webpack/webpack.055e4696d372e586.hot-update.js
+/******/ 	__webpack_require__.h = function() { return "a09408dc2d66a271"; }
+========
+/******/ 	__webpack_require__.h = function() { return "2572f3de2d8b7b5d"; }
+>>>>>>>> parent of 1c72423 (Map Window Fix):.next/static/webpack/webpack.0a641b921856eac3.hot-update.js
+>>>>>>> parent of 1c72423 (Map Window Fix)
 /******/ }();
 /******/ 
 /******/ }

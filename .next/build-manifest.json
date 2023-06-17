@@ -32,6 +32,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/userFolder/[Uid].js"
     ],
+    "/userFolder/[Uid]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/userFolder/[Uid].js"
+    ],
     "/userFolder/[Uid]/[ProjectContent]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
