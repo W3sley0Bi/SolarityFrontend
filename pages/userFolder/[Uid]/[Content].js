@@ -7,13 +7,13 @@ import { fetchFun } from '../../../js/fetchFun';
 import RedirectHandler from "../../../components/RedirectHandler";
 import { Container, Row, Col, Spacer } from "@nextui-org/react";
 import Loader from "../../../components/Loader"
-import Map from "../../../components/Map"
+//import Map from "../../../components/Map"
 import 'leaflet/dist/leaflet.css'
 
-export default function ProjectContent(){
+export default function Content(){
 
     const router = useRouter()
-    const { Uid,ProjectContent } = router.query
+    const { Uid,Content } = router.query
     const [data, setData] = useState(<Loader></Loader>)
     const [formButton,setFormButton] = useState()
     const [addFile,setAddFile] = useState()
@@ -28,7 +28,7 @@ export default function ProjectContent(){
       
 
         if (Uid == uid || role == 1) {
-          const res = await fetchFun(`/userFolder/${Uid}/${ProjectContent}`, "GET", {}, token);
+          const res = await fetchFun(`/userFolder/${Uid}/${Content}`, "GET", {}, token);
           if (res === 401) {
             router.push("/Login");
           } else {

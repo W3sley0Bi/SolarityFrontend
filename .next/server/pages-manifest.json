@@ -2,5 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/userFolder/[Uid]": "pages/userFolder/[Uid].js"
+  "/userFolder/[Uid]/[Content]": "pages/userFolder/[Uid]/[Content].js",
+  "/userFolder/[Uid]": "pages/userFolder/[Uid].js",
+  "/": "pages/index.js"
 }

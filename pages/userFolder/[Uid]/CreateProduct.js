@@ -31,7 +31,7 @@ export default function CreateProduct(){
 
     (async () => {
         if (role == 2 || role == 3) {
-            router.push(`/userFolder/${uid}`);
+            router.push(`/userFolder/${Uid}`);
           }
             })()
 
