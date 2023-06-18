@@ -1,14 +1,5 @@
 {
   "/_app": "pages/_app.js",
-  "/_document": "pages/_document.js",
-<<<<<<< HEAD
-  "/userFolder/[Uid]/ProfilePage": "pages/userFolder/[Uid]/ProfilePage.js",
-  "/": "pages/index.js",
-  "/userFolder/[Uid]": "pages/userFolder/[Uid].js",
-  "/Login": "pages/Login.js"
-=======
   "/_error": "pages/_error.js",
-  "/userFolder/[Uid]/[ProjectContent]": "pages/userFolder/[Uid]/[ProjectContent].js",
-  "/userFolder/[Uid]": "pages/userFolder/[Uid].js"
->>>>>>> bd2208a4141522006f296217d9faef5806827f2f
+  "/_document": "pages/_document.js"
 }
