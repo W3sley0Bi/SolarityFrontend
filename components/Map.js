@@ -3,6 +3,7 @@ import { TileLayer } from "react-leaflet/TileLayer";
 import { Marker } from "react-leaflet";
 import { Popup } from "react-leaflet";
 import { useState, ListView } from "react";
+import { useSelector } from "react-redux"
 import Layout from "../components/Layout";
 import { Button } from "@nextui-org/react";
 import { fetchFast } from "../js/fetchFun";
@@ -11,27 +12,31 @@ import { Spacer } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Card, Text } from "@nextui-org/react";
 import { useMapEvent } from "react-leaflet/hooks";
-import NewProduct from "../components/NewProduct"
+import NewProduct from "../components/NewProduct";
+import { fetchFun } from "../js/fetchFun"
 
 export default function showMap(props) {
   const [addedMarker, setAddedMarker] = useState(null);
   const [showError, setShowError] = useState(false);
   const [searchQ, setSearchQ] = useState("");
 
-  const [updateModal, setUpdateModal] = useState(false)
-  const [newModal, setNewModal] = useState(false)
+  const token = useSelector((state) => state.token.value);
+
+  const [updateModal, setUpdateModal] = useState(false);
+  const [newModal, setNewModal] = useState(false);
 
   let products = props.products;
+
 
   const handleMapClick = (e) => {
     const { lat, lng } = e.latlng;
     const newMarker = { lat, lng };
     setAddedMarker(newMarker);
-    let lat1 = newMarker['lat'].toFixed(3)
-    let lng1 = newMarker['lng'].toFixed(3)
+    let lat1 = newMarker["lat"].toFixed(3);
+    let lng1 = newMarker["lng"].toFixed(3);
     setAddedMarker({
       lat: lat1,
-      lng: lng1
+      lng: lng1,
     });
     if (showError) {
       setShowError(false);
@@ -117,9 +122,14 @@ export default function showMap(props) {
         {addedMarker !== null && (
           <Marker position={[addedMarker.lat, addedMarker.lng]}>
             <Popup>
-              <Text>Latitude: {addedMarker.lat} </Text> 
+              <Text>Latitude: {addedMarker.lat} </Text>
               <Text>Longitude: {addedMarker.lng}</Text>
-              <Button size="xs" color="primary" auto onClick={(() => setNewModal(true))}>
+              <Button
+                size="xs"
+                color="primary"
+                auto
+                onClick={() => setNewModal(true)}
+              >
                 Add a product to this location
               </Button>
             </Popup>
@@ -150,8 +160,14 @@ export default function showMap(props) {
           );
         })}
       </MapContainer>
-      {newModal && 
-        <NewProduct show={{newModal}} current ={addedMarker} stateChanger={setNewModal}/> }
+      {newModal && (
+        <NewProduct
+          show={{ newModal }}
+          current={addedMarker}
+          stateChanger={setNewModal}
+          products={props.companyProducts}
+        />
+      )}
     </div>
   );
 }

@@ -88,10 +88,10 @@ export default function NewProduct(props) {
             selectedKeys={selected}
             onSelectionChange={setSelected}
           >
-            <Dropdown.Item key="Choose Product">Choose Product</Dropdown.Item>
-            <Dropdown.Item key="A">A</Dropdown.Item>
-            <Dropdown.Item key="B">B</Dropdown.Item>
-            <Dropdown.Item key="C">C</Dropdown.Item>
+            <Dropdown.Item key="Choose_Product">Choose Product</Dropdown.Item>
+            {props.products.map((product) => {
+                <Dropdown.Item key={product.product_id}>product.name</Dropdown.Item>
+            })}
 
           </Dropdown.Menu>
         </Dropdown>
