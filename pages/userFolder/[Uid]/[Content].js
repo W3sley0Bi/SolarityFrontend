@@ -15,12 +15,20 @@ export default function Content(){
     const router = useRouter()
     const { Uid,Content } = router.query
     const [data, setData] = useState(<Loader></Loader>)
-    const [formButton,setFormButton] = useState()
-    const [addFile,setAddFile] = useState()
+
     const token = useSelector((state) => state.token.value);
     const uid = useSelector((state) => state.uid.value);
     const role = useSelector((state) => state.role.value);
 
+    async function removeElement(project_id, field_product_id){
+      const res = await fetchFun(`/deleteProjectContentElement`, "POST", {project_id,field_product_id}, token);
+      if (res.status == 200){
+        alert(res.message)
+      }
+      console.log(res)
+      window.location.reload(false)
+ 
+  }
 
     useEffect(()=>{
         if(!router.isReady) return;
@@ -31,7 +39,7 @@ export default function Content(){
           const res = await fetchFun(`/userFolder/${Uid}/${Content}`, "GET", {}, token);
           if (res === 401) {
             router.push("/Login");
-          } else {
+          } else if(role == 2 || role == 3){
                 console.log(res)
                 const data = res.result.map(item => 
                     <div>
@@ -53,8 +61,8 @@ export default function Content(){
                     <br/>
                     <br/>
                     <br/>
-
-                    </div>
+                    <button onClick={() => {removeElement(item.project_id,item.field_product_id)}}>Delete Element</button>
+                     </div>
                   //map view
                   // <FileModal key={item.idFile} idFile={item.idFile} file_name={item.file_name} file_data={item.file_data} file_type={item.file_type} ></FileModal>
                     
@@ -62,6 +70,8 @@ export default function Content(){
 
                     setData(data) 
             
+                }else{
+                  //retrive company data here
                 }
 
             } else{
@@ -75,8 +85,6 @@ export default function Content(){
     return( 
         <>
         <Layout>
-            {formButton}
-            {addFile}
         <Container gap={2} style={{ flexDirection: "column" }}>
           <br />
           {data}
