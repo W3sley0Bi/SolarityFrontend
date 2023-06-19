@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Input } from "@nextui-org/react";
 import RedirectHandler from "../../../components/RedirectHandler";
 import Folder from "../../../components/Folder";
-import {Container,} from "@nextui-org/react";
+import {Container, Spacer} from "@nextui-org/react";
 import { useSelector, useDispatch } from "react-redux";
 import { setToken } from "../../../stores/store";
 import Layout from "../../../components/Layout";
@@ -12,6 +12,9 @@ import { fetchFun } from "../../../js/fetchFun"
 import Loader from "../../../components/Loader"
 import NoData from "../../../components/NoData";
 import { ActioKeyNav } from "../../../js/ActioKeyNav";
+import { setRole } from "../../../stores/store";
+
+
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -20,6 +23,7 @@ export default function ProfilePage() {
   const token = useSelector((state) => state.token.value);
   const uid = useSelector((state) => state.uid.value);
   const role = useSelector((state) => state.role.value);
+  const dispatch = useDispatch();
 
   async function deleteProfile(){
     let conf = confirm("Are you sure you wanna cancel your profile?");
@@ -31,16 +35,25 @@ export default function ProfilePage() {
     ActioKeyNav("logout")
   }
 
+
+  async function updateToPremium(){
+    let conf = confirm("Do you wanna update to premium");
+    if(conf == false){
+        return
+    }
+    const res = await fetchFun(`/updateToPremium`, "POST", {uid}, token);
+    alert(res.message)
+    await dispatch(setRole(3));
+    window.location.reload(false);
+  }
+
+
   useEffect(() => {
     if (!router.isReady) return;
 
     (async () => {
       //user role
-      if(role == 1 ){
-        let addProjectButton = <RedirectHandler route={`${Uid}/CreateProject`}> + Create Project </RedirectHandler>
-        setProject(addProjectButton)
-      }
-
+      
       if (Uid == uid || role == 1) {
         const res = await fetchFun(`/showProfile`, "POST", {Uid}, token);
         if (res === 401) {
@@ -54,7 +67,11 @@ export default function ProfilePage() {
                 <p>access_token: {item.access_token}</p>
                 <p>password: {item.password}</p>
                 <p>role: {item.role_fk}</p>
+                <RedirectHandler route={`/userFolder/${Uid}/ModifyProfile`}> Modify Profile </RedirectHandler>
                 <button onClick={deleteProfile} >Delete</button>
+                <Spacer gap={1}/>
+                
+                {role == 2 ? <button onClick={updateToPremium}> Update </button> : null}
             </div>
             
           ));
