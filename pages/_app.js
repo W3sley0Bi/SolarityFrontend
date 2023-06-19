@@ -16,6 +16,8 @@ import { useEffect, useState } from "react";
 function MyApp({ Component, pageProps }) {
   const [topPadding, setTopPadding] = useState(0);
 
+
+
   useEffect(() => {
     console.log(window.safeAreaInsets);
 

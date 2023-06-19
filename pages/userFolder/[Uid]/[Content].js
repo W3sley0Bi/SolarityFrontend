@@ -7,8 +7,8 @@ import { fetchFun } from '../../../js/fetchFun';
 import RedirectHandler from "../../../components/RedirectHandler";
 import { Container, Row, Col, Spacer } from "@nextui-org/react";
 import Loader from "../../../components/Loader"
-//import Map from "../../../components/Map"
-import 'leaflet/dist/leaflet.css'
+import dynamic from 'next/dynamic'
+
 
 export default function Content(){
 
@@ -19,6 +19,15 @@ export default function Content(){
     const token = useSelector((state) => state.token.value);
     const uid = useSelector((state) => state.uid.value);
     const role = useSelector((state) => state.role.value);
+    const [showMap, setShowMap] = useState()
+    
+  
+
+    // map 
+
+    const DynamicMap = dynamic(() => import("../../../components/Map"), {
+      ssr: false
+    }); 
 
     async function removeElement(project_id, field_product_id){
       const res = await fetchFun(`/deleteProjectContentElement`, "POST", {project_id,field_product_id}, token);
@@ -69,6 +78,8 @@ export default function Content(){
                     );
 
                     setData(data) 
+
+                    //setShowMap(<><DynamicMap products={res['result']}></DynamicMap></>)
             
                 }else{
                   //retrive company data here
@@ -87,6 +98,8 @@ export default function Content(){
         <Layout>
         <Container gap={2} style={{ flexDirection: "column" }}>
           <br />
+          {//showMap}
+}
           {data}
         </Container>
         </Layout>
