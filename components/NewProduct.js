@@ -21,6 +21,8 @@ export default function NewProduct(props) {
     console.log("closed");
   };
 
+  console.log(props.products)
+
   return (
     <Modal
       closeButton
@@ -90,7 +92,7 @@ export default function NewProduct(props) {
           >
             <Dropdown.Item key="Choose_Product">Choose Product</Dropdown.Item>
             {props.products.map((product) => {
-                <Dropdown.Item key={product.product_id}>product.name</Dropdown.Item>
+                return <Dropdown.Item key={product.product_id}>{product.name}</Dropdown.Item>
             })}
 
           </Dropdown.Menu>

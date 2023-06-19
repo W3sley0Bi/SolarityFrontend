@@ -2,7 +2,7 @@ import { MapContainer } from "react-leaflet/MapContainer";
 import { TileLayer } from "react-leaflet/TileLayer";
 import { Marker } from "react-leaflet";
 import { Popup } from "react-leaflet";
-import { useState, ListView } from "react";
+import { useState, ListView, useEffect} from "react";
 import { useSelector } from "react-redux"
 import Layout from "../components/Layout";
 import { Button } from "@nextui-org/react";
@@ -24,8 +24,24 @@ export default function showMap(props) {
 
   const [updateModal, setUpdateModal] = useState(false);
   const [newModal, setNewModal] = useState(false);
+  const [companyProducts, setCompanyProducts] = useState([]);
 
   let products = props.products;
+
+  useEffect(() =>{
+    getProducts()
+  }, [])
+
+  const getProducts = async () => {
+    const res2 = await fetchFun(`/getAllProducts`, "GET", {}, token);
+    console.log(res2)
+    setCompanyProducts(res2);
+  };
+
+
+
+  console.log(companyProducts)
+
 
 
   const handleMapClick = (e) => {
@@ -165,7 +181,7 @@ export default function showMap(props) {
           show={{ newModal }}
           current={addedMarker}
           stateChanger={setNewModal}
-          products={props.companyProducts}
+          products={companyProducts}
         />
       )}
     </div>

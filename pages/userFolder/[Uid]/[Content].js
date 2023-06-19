@@ -19,7 +19,6 @@ export default function Content() {
   const uid = useSelector((state) => state.uid.value);
   const role = useSelector((state) => state.role.value);
   const [showMap, setShowMap] = useState();
-  const [companyProducts, setCompanyProducts] = useState([]);
 
   // map
 
@@ -29,13 +28,8 @@ export default function Content() {
 
   useEffect(() => {
     if (!router.isReady) return;
-
-    (async () => {
-      const res = await fetchFun(`/getAllProducts`, "GET", {}, token);
-      console.log(res);
-      setCompanyProducts(res);
-    })();
-
+    
+ 
     (async () => {
       if (Uid == uid || role == 1) {
         const res = await fetchFun(
@@ -43,11 +37,12 @@ export default function Content() {
           "GET",
           {},
           token
-        );
+        );        
         if (res === 401) {
           router.push("/Login");
         } else {
           console.log(res);
+
           const data = res.result.map(
             (item) => (
               <div>
@@ -73,17 +68,17 @@ export default function Content() {
             )
             //map view
             // <FileModal key={item.idFile} idFile={item.idFile} file_name={item.file_name} file_data={item.file_data} file_type={item.file_type} ></FileModal>
+
           );
 
           setData(data);
-          /*setShowMap(
+          setShowMap(
             <>
               <DynamicMap
                 products={res["result"]}
-                companyProducts={companyProducts}
               ></DynamicMap>
             </>
-          );*/
+          );
         }
       } else {
         router.push(`/userFolder/${uid}`);
@@ -99,7 +94,8 @@ export default function Content() {
         <Container gap={2} style={{ flexDirection: "column" }}>
           <br />
           {//showMap}
-          }
+}
+          
 
           {data}
         </Container>
