@@ -4,8 +4,10 @@ import { fetchFast, fetchFun } from '../js/fetchFun'
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux"
 
-export default function NewProduct(props) {
-  let location = props.current;
+export default function UpdateProduct(props) {
+
+    let selectedProduct = props.selectedP
+  
   const handler = () => setVisible(true);
 
   const token = useSelector((state) => state.token.value);
@@ -13,7 +15,7 @@ export default function NewProduct(props) {
   const router = useRouter();
   const { Uid, Content } = router.query;
 
-  const [selected, setSelected] = useState(new Set(["Choose_Product"]));
+  const [selected, setSelected] = useState(new Set([selectedProduct.company_product_id]));
   const [error, setError] = useState("");
 
   const selectedValue = useMemo(
@@ -22,11 +24,11 @@ export default function NewProduct(props) {
   );
 
   // params
-  const [tiltAngle, setTiltAngle] = useState(45);
+  const [tiltAngle, setTiltAngle] = useState(selectedProduct.tilt);
   const [visible, setVisible] = useState(props.show);
-  const [lng, setLng] = useState(location.lng);
-  const [lat, setLat] = useState(location.lat);
-  const [orientation, setOrientation] = useState("");
+  const [lng, setLng] = useState(selectedProduct.lon);
+  const [lat, setLat] = useState(selectedProduct.lat);
+  const [orientation, setOrientation] = useState(selectedProduct.orientation);
 
   const closeHandler = () => {
     setVisible(false);
@@ -34,9 +36,9 @@ export default function NewProduct(props) {
     console.log("closed");
   };
 
-  const addProduct = () => {
+  const updateProduct = () => {
     setError("");
-    console.log(orientation)
+
     if (
       !lat ||
       !lng ||
@@ -77,33 +79,48 @@ export default function NewProduct(props) {
             "GET",
           );
         console.log(utc)
-        let product = {
+        console.log(selectedProduct.field_product_id)
+
+        const updateP = {   
             "company_product_id": selected.values().next().value,
             "lat": lat,
             "lon": lng,
             "orientation" : orientation.charAt(0).toUpperCase(),
             "tilt": tiltAngle,
-            "utc_offset": utc
+            "utc_offset": utc,
+            "field_product_id": selectedProduct['field_product_id']
         }
 
         const res = await fetchFun(
-            `/userFolder/${Uid}/${Content}/addProduct`,
+            `/userFolder/${Uid}/${Content}/updateProduct`,
             "POST",
-            product,
+            updateP,
             token
         );
-        if (res['message'] === "Product Added") {
+
+        if (res['message'] === "Product Updated") {
             // The request was successful (status code 2xx)
             console.log("Call succeeded!");
             console.log("closed");
-            props.updateProducts([...props.userProducts, product])
-            props.setAddedMarker(null)
+
+
+            const index = props.userProducts.findIndex(obj => obj['field_product_id'] === updateP['field_product_id']);
+
+            if (index !== -1) {
+              // If a match is found, create a new state array with the replaced object
+              const updatedState = [
+                ... props.userProducts.slice(0, index),
+                updateP,
+                ... props.userProducts.slice(index + 1)
+              ];
+
+              props.updateProducts(updatedState)
+
             setVisible(false);
             props.stateChanger(false);
 
 
-          } else {
-            // The request encountered an error (status code not in the 2xx range)
+          } }else {
 
           }
           
@@ -131,7 +148,7 @@ export default function NewProduct(props) {
         <Text blockquote>{error}</Text>
         <Input
           bordered
-          initialValue={location.lat}
+          initialValue={selectedProduct.lat}
           fullWidth
           color="primary"
           size="lg"
@@ -142,7 +159,7 @@ export default function NewProduct(props) {
         />
         <Input
           bordered
-          initialValue={location.lng}
+          initialValue={selectedProduct.lon}
           fullWidth
           color="primary"
           size="lg"
@@ -161,6 +178,7 @@ export default function NewProduct(props) {
           onChange={(e) => setOrientation(e.target.value)}
           label="PV Module Orientation"
           maxLength={1}
+          initialValue={selectedProduct.orientation}
         />
         <Input
           onChange={(e) => setTiltAngle(e.target.value)}
@@ -171,9 +189,9 @@ export default function NewProduct(props) {
           placeholder="0-90"
           label="PV Module Tilt Angle"
           type="number"
+          initialValue={selectedProduct.tilt}
           min="0"
           max="90"
-          initialValue="45"
         />
         <Dropdown>
           <Dropdown.Button flat color="secondary" css={{ tt: "capitalize" }}>
@@ -204,8 +222,8 @@ export default function NewProduct(props) {
         <Button auto flat color="error" onPress={closeHandler}>
           Close
         </Button>
-        <Button auto onPress={addProduct}>
-          Add Product
+        <Button auto onPress={updateProduct}>
+          Update Product
         </Button>
       </Modal.Footer>
     </Modal>

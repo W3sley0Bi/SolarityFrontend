@@ -13,14 +13,18 @@ import { Input } from "@nextui-org/react";
 import { Card, Text } from "@nextui-org/react";
 import { useMapEvent } from "react-leaflet/hooks";
 import NewProduct from "../components/NewProduct";
+import UpdateProduct from "../components/UpdateProduct";
 import { fetchFun } from "../js/fetchFun"
 
 export default function showMap(props) {
+  
   const [addedMarker, setAddedMarker] = useState(null);
   const [showError, setShowError] = useState(false);
   const [searchQ, setSearchQ] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null)
 
   const token = useSelector((state) => state.token.value);
+
 
   const [updateModal, setUpdateModal] = useState(false);
   const [newModal, setNewModal] = useState(false);
@@ -82,10 +86,17 @@ export default function showMap(props) {
     const map = useMapEvent({
       click: handleMapClick,
     });
-    if (addedMarker !== null) map.flyTo([addedMarker.lat, addedMarker.lng]);
+    if (addedMarker !== null) {
+      map.flyTo([addedMarker.lat, addedMarker.lng]);
+    }
 
     return null;
   };
+
+  const selectedUpdateHandle = (selectedp) => {
+    setSelectedProduct(selectedp)
+    setUpdateModal(true)
+  }
 
   return (
     <div>
@@ -115,7 +126,7 @@ export default function showMap(props) {
           zIndex: 1,
         }}
         center={[30, 31]}
-        zoom={2}
+        zoom={4}
         doubleClickZoom={false}
         scrollWheelZoom={false}
       >
@@ -151,12 +162,18 @@ export default function showMap(props) {
               <Popup>
                 <Grid.Container gap={1}>
                   <Grid>
-                    <Button size="xs" color="primary" auto>
+                    <Text b>Latitude: {product.lat}</Text>
+                  </Grid>
+                  <Grid>
+                    <Text b>Longitude: {product.lon}</Text>
+                  </Grid>
+                  <Grid>
+                    <Button size="xs" color="warning" auto>
                       Delete
                     </Button>
                   </Grid>
                   <Grid>
-                    <Button size="xs" color="primary" auto>
+                    <Button size="xs" color="primary" auto onClick={(() => selectedUpdateHandle(product))}>
                       Update
                     </Button>
                   </Grid>
@@ -174,6 +191,18 @@ export default function showMap(props) {
           products={companyProducts}
           userProducts={userProducts}
           updateProducts={setUserProducts}
+          setAddedMarker={setAddedMarker}
+        />
+      )}
+
+    {updateModal && (
+        <UpdateProduct
+          show={{ updateModal }}
+          stateChanger={setUpdateModal}
+          products={companyProducts}
+          userProducts={userProducts}
+          updateProducts={setUserProducts}
+          selectedP={selectedProduct}
         />
       )}
     </div>

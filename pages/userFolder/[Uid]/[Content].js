@@ -93,8 +93,7 @@ export default function Content() {
         {addFile}
         <Container gap={2} style={{ flexDirection: "column" }}>
           <br />
-          {//showMap}
-}
+          {showMap}
           
 
           {data}
