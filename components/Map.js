@@ -25,8 +25,8 @@ export default function showMap(props) {
   const [updateModal, setUpdateModal] = useState(false);
   const [newModal, setNewModal] = useState(false);
   const [companyProducts, setCompanyProducts] = useState([]);
+  const [userProducts, setUserProducts] = useState(props.products);
 
-  let products = props.products;
 
   useEffect(() =>{
     getProducts()
@@ -40,7 +40,6 @@ export default function showMap(props) {
 
 
 
-  console.log(companyProducts)
 
 
 
@@ -59,15 +58,6 @@ export default function showMap(props) {
     }
   };
 
-  const locationCard = () => {
-    return (
-      <Card isPressable isHoverable variant="bordered" css={{ mw: "400px" }}>
-        <Card.Body>
-          <Text>Text</Text>
-        </Card.Body>
-      </Card>
-    );
-  };
 
   const handleSubmit = () => {
     (async () => {
@@ -151,8 +141,8 @@ export default function showMap(props) {
             </Popup>
           </Marker>
         )}
-        {console.log(products)}
-        {products.map((product) => {
+        {console.log(userProducts)}
+        {userProducts.map((product) => {
           return (
             <Marker
               key={product.field_product_id}
@@ -182,6 +172,8 @@ export default function showMap(props) {
           current={addedMarker}
           stateChanger={setNewModal}
           products={companyProducts}
+          userProducts={userProducts}
+          updateProducts={setUserProducts}
         />
       )}
     </div>
