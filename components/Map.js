@@ -28,10 +28,13 @@ export default function showMap(props) {
   const router = useRouter();
   const { Uid, Content } = router.query;
 
+  const role = useSelector((state) => state.role.value);
+
   const [updateModal, setUpdateModal] = useState(false);
   const [newModal, setNewModal] = useState(false);
   const [companyProducts, setCompanyProducts] = useState([]);
   const [userProducts, setUserProducts] = useState(props.products);
+  const [errorMsg, setErrorMsg] = useState("No Location Was Found");
 
   useEffect(() => {
     getProducts();
@@ -46,6 +49,14 @@ export default function showMap(props) {
   const handleMapClick = (e) => {
     const { lat, lng } = e.latlng;
     const newMarker = { lat, lng };
+    if (role == 2 && userProducts.length >= 3) {
+      console.log("someone has more than 3")
+      setShowError(true);
+      setErrorMsg(
+        "Product limit 3 reached, Consider upgrading your account to premium to add more products or delete existing products"
+      );
+      return;
+    }
     setAddedMarker(newMarker);
     let lat1 = newMarker["lat"].toFixed(3);
     let lng1 = newMarker["lng"].toFixed(3);
@@ -59,13 +70,27 @@ export default function showMap(props) {
   };
 
   const handleSubmit = () => {
+    if (!searchQ) {
+      setErrorMsg("Fill in a location please");
+      setShowError(true);
+      return;
+    }
+
+    if (role == 2 && userProducts.length >= 3) {
+      console.log("someone has more than 3")
+      setShowError(true);
+      setErrorMsg(
+        "Product limit 3 reached, Consider upgrading your account to premium to add more products or delete existing products"
+      );
+      return;
+    }
+
     (async () => {
       let query = `/locationsearch&q=${encodeURIComponent(searchQ)}`;
       let res = await fetchFast(query, "GET");
       if (res["result"][0] === undefined) {
-        if (addedMarker !== null) {
-          setShowError(true);
-        }
+        setErrorMsg("No Location Was Found");
+        setShowError(true);
         setAddedMarker(null);
       } else {
         setAddedMarker({
@@ -94,26 +119,31 @@ export default function showMap(props) {
   };
 
   const selectedDeleteHandle = (selectedp) => {
+    (async () => {
+      const res = await fetchFun(
+        `/deleteProjectContentElement`,
+        "POST",
+        {
+          project_id: Content,
+          field_product_id: selectedp["field_product_id"],
+        },
+        token
+      );
 
-    (async() => {
+      const index = userProducts.findIndex(
+        (obj) => obj["field_product_id"] === selectedp["field_product_id"]
+      );
 
-      const res = await fetchFun(`/deleteProjectContentElement`, "POST", {"project_id": Content,"field_product_id":selectedp['field_product_id']}, token);
-    
-      const index = userProducts.findIndex(obj => obj['field_product_id'] === selectedp['field_product_id']);
-  
       if (index !== -1) {
         // If a match is found, create a new state array with the replaced object
         const updatedState = [
           ...userProducts.slice(0, index),
-          ...userProducts.slice(index + 1)
+          ...userProducts.slice(index + 1),
         ];
-  
-        setUserProducts(updatedState)
 
-    }
-  })();
-
-
+        setUserProducts(updatedState);
+      }
+    })();
   };
 
   return (
@@ -134,7 +164,7 @@ export default function showMap(props) {
         Search
       </Button>
 
-      {showError ? <Text blockquote>No Location Found</Text> : ""}
+      {showError ? <Text blockquote>{errorMsg}</Text> : ""}
 
       <MapContainer
         style={{
@@ -204,7 +234,8 @@ export default function showMap(props) {
                         </Row>
                         <Row>
                           <Text>
-                            Are you sure you want to delete this product ? This action is irreversible
+                            Are you sure you want to delete this product ? This
+                            action is irreversible
                           </Text>
                         </Row>
                         <Grid.Container
