@@ -20,6 +20,7 @@ export default function Content() {
   const role = useSelector((state) => state.role.value);
   const [showMap, setShowMap] = useState();
 
+
   // map
 
   const DynamicMap = dynamic(() => import("../../../components/Map"), {

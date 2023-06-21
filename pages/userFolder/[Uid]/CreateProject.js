@@ -63,12 +63,13 @@ export default function CreateProject(){
         
         <>
         <Layout>
-            
-            <Input clearable bordered labelPlaceholder="Project Name" required={true} name='ProjectName' type="text" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
+        <h1>Create A Project</h1>
+            <Input clearable bordered label="Project Name" required={true} name='ProjectName' type="text" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
             <Spacer y={1} />
-            <Input bordered labelPlaceholder="Duration" required={true} name='duration' type="number" value={projectDuration} onChange={(e) => setProjectDuration(e.target.value)} />
+            <Input bordered label="Duration" required={true} name='duration' type="number" value={projectDuration} onChange={(e) => setProjectDuration(e.target.value)} />
             <Spacer y={1} />
-            <Button onClick={handleSubmit}> Send </Button>   
+            <Button onClick={handleSubmit}> Send </Button> 
+             
         </Layout>
         </>
     )
