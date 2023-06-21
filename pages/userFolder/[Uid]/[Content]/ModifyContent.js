@@ -88,7 +88,7 @@ export default function ModifyContent(){
                     <br/>
                     <br/>
                     <br/>
-                    <button onClick={removeElement(item.project_id,item.field_product_id)}>Delete Element</button>
+                    <button onClick={() => removeElement(item.project_id,item.field_product_id)}>Delete Element</button>
                     </div>
                 
                     );
