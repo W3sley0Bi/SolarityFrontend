@@ -2,7 +2,8 @@ import { MapContainer } from "react-leaflet/MapContainer";
 import { TileLayer } from "react-leaflet/TileLayer";
 import { Marker } from "react-leaflet";
 import { Popup } from "react-leaflet";
-import { useState, ListView } from "react";
+import { useState, ListView, useEffect} from "react";
+import { useSelector } from "react-redux"
 import Layout from "../components/Layout";
 import { Button } from "@nextui-org/react";
 import { fetchFast } from "../js/fetchFun";
@@ -11,42 +12,56 @@ import { Spacer } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Card, Text } from "@nextui-org/react";
 import { useMapEvent } from "react-leaflet/hooks";
-import NewProduct from "../components/NewProduct"
+import NewProduct from "../components/NewProduct";
+import UpdateProduct from "../components/UpdateProduct";
+import { fetchFun } from "../js/fetchFun"
 
 export default function showMap(props) {
+  
   const [addedMarker, setAddedMarker] = useState(null);
   const [showError, setShowError] = useState(false);
   const [searchQ, setSearchQ] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null)
 
-  const [updateModal, setUpdateModal] = useState(false)
-  const [newModal, setNewModal] = useState(false)
+  const token = useSelector((state) => state.token.value);
 
-  let products = props.products;
+
+  const [updateModal, setUpdateModal] = useState(false);
+  const [newModal, setNewModal] = useState(false);
+  const [companyProducts, setCompanyProducts] = useState([]);
+  const [userProducts, setUserProducts] = useState(props.products);
+
+
+  useEffect(() =>{
+    getProducts()
+  }, [])
+
+  const getProducts = async () => {
+    const res2 = await fetchFun(`/getAllProducts`, "GET", {}, token);
+    console.log(res2)
+    setCompanyProducts(res2);
+  };
+
+
+
+
+
 
   const handleMapClick = (e) => {
     const { lat, lng } = e.latlng;
     const newMarker = { lat, lng };
     setAddedMarker(newMarker);
-    let lat1 = newMarker['lat'].toFixed(3)
-    let lng1 = newMarker['lng'].toFixed(3)
+    let lat1 = newMarker["lat"].toFixed(3);
+    let lng1 = newMarker["lng"].toFixed(3);
     setAddedMarker({
       lat: lat1,
-      lng: lng1
+      lng: lng1,
     });
     if (showError) {
       setShowError(false);
     }
   };
 
-  const locationCard = () => {
-    return (
-      <Card isPressable isHoverable variant="bordered" css={{ mw: "400px" }}>
-        <Card.Body>
-          <Text>Text</Text>
-        </Card.Body>
-      </Card>
-    );
-  };
 
   const handleSubmit = () => {
     (async () => {
@@ -71,10 +86,17 @@ export default function showMap(props) {
     const map = useMapEvent({
       click: handleMapClick,
     });
-    if (addedMarker !== null) map.flyTo([addedMarker.lat, addedMarker.lng]);
+    if (addedMarker !== null) {
+      map.flyTo([addedMarker.lat, addedMarker.lng]);
+    }
 
     return null;
   };
+
+  const selectedUpdateHandle = (selectedp) => {
+    setSelectedProduct(selectedp)
+    setUpdateModal(true)
+  }
 
   return (
     <div>
@@ -104,7 +126,7 @@ export default function showMap(props) {
           zIndex: 1,
         }}
         center={[30, 31]}
-        zoom={2}
+        zoom={4}
         doubleClickZoom={false}
         scrollWheelZoom={false}
       >
@@ -117,16 +139,21 @@ export default function showMap(props) {
         {addedMarker !== null && (
           <Marker position={[addedMarker.lat, addedMarker.lng]}>
             <Popup>
-              <Text>Latitude: {addedMarker.lat} </Text> 
+              <Text>Latitude: {addedMarker.lat} </Text>
               <Text>Longitude: {addedMarker.lng}</Text>
-              <Button size="xs" color="primary" auto onClick={(() => setNewModal(true))}>
+              <Button
+                size="xs"
+                color="primary"
+                auto
+                onClick={() => setNewModal(true)}
+              >
                 Add a product to this location
               </Button>
             </Popup>
           </Marker>
         )}
-        {console.log(products)}
-        {products.map((product) => {
+        {console.log(userProducts)}
+        {userProducts.map((product) => {
           return (
             <Marker
               key={product.field_product_id}
@@ -135,12 +162,18 @@ export default function showMap(props) {
               <Popup>
                 <Grid.Container gap={1}>
                   <Grid>
-                    <Button size="xs" color="primary" auto>
+                    <Text b>Latitude: {product.lat}</Text>
+                  </Grid>
+                  <Grid>
+                    <Text b>Longitude: {product.lon}</Text>
+                  </Grid>
+                  <Grid>
+                    <Button size="xs" color="warning" auto>
                       Delete
                     </Button>
                   </Grid>
                   <Grid>
-                    <Button size="xs" color="primary" auto>
+                    <Button size="xs" color="primary" auto onClick={(() => selectedUpdateHandle(product))}>
                       Update
                     </Button>
                   </Grid>
@@ -150,8 +183,28 @@ export default function showMap(props) {
           );
         })}
       </MapContainer>
-      {newModal && 
-        <NewProduct show={{newModal}} current ={addedMarker} stateChanger={setNewModal}/> }
+      {newModal && (
+        <NewProduct
+          show={{ newModal }}
+          current={addedMarker}
+          stateChanger={setNewModal}
+          products={companyProducts}
+          userProducts={userProducts}
+          updateProducts={setUserProducts}
+          setAddedMarker={setAddedMarker}
+        />
+      )}
+
+    {updateModal && (
+        <UpdateProduct
+          show={{ updateModal }}
+          stateChanger={setUpdateModal}
+          products={companyProducts}
+          userProducts={userProducts}
+          updateProducts={setUserProducts}
+          selectedP={selectedProduct}
+        />
+      )}
     </div>
   );
 }

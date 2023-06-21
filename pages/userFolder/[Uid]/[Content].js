@@ -1,49 +1,35 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router'
-import FileModal from "../../../components/FileModal"
-import Layout from '../../../components/Layout';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import FileModal from "../../../components/FileModal";
+import Layout from "../../../components/Layout";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchFun } from '../../../js/fetchFun';
+import { fetchFun } from "../../../js/fetchFun";
 import RedirectHandler from "../../../components/RedirectHandler";
-import { Container, Input, Row, Col, Spacer } from "@nextui-org/react";
+import { Container, Row, Col, Spacer } from "@nextui-org/react";
 import Loader from "../../../components/Loader"
 import dynamic from 'next/dynamic'
 
+export default function Content() {
+  const router = useRouter();
+  const { Uid, Content } = router.query;
+  const [data, setData] = useState(<Loader></Loader>);
+  const [formButton, setFormButton] = useState();
+  const [addFile, setAddFile] = useState();
+  const token = useSelector((state) => state.token.value);
+  const uid = useSelector((state) => state.uid.value);
+  const role = useSelector((state) => state.role.value);
+  const [showMap, setShowMap] = useState();
 
-export default function Content(){
+  // map
 
-    const router = useRouter()
-    const { Uid,Content } = router.query
-    const [data, setData] = useState(<Loader></Loader>)
+  const DynamicMap = dynamic(() => import("../../../components/Map"), {
+    ssr: false,
+  });
 
-    const token = useSelector((state) => state.token.value);
-    const uid = useSelector((state) => state.uid.value);
-    const role = useSelector((state) => state.role.value);
-    const [showMap, setShowMap] = useState()
-    
-  
+  useEffect(() => {
+    if (!router.isReady) return;
 
-    // map 
-
-    const DynamicMap = dynamic(() => import("../../../components/Map"), {
-      ssr: false
-    }); 
-
-    async function removeElement(project_id, field_product_id){
-      const res = await fetchFun(`/deleteProjectContentElement`, "POST", {project_id,field_product_id}, token);
-      if (res.status == 200){
-        alert(res.message)
-      }
-      console.log(res)
-      window.location.reload(false)
- 
-  }
-
-    useEffect(()=>{
-        if(!router.isReady) return;
     (async () => {
-      
-
         if (Uid == uid || role == 1) {
           const res = await fetchFun(`/userFolder/${Uid}/${Content}`, "GET", {}, token);
           if (res === 401) {
@@ -70,9 +56,11 @@ export default function Content(){
                     <br/>
                     <br/>
                     <br/>
-                    {/* maybe just in the modification??????? */}
-                    {/* <button onClick={() => {removeElement(item.project_id,item.field_product_id)}}>Delete Element</button> */}
+                    <button onClick={() => {removeElement(item.project_id,item.field_product_id)}}>Delete Element</button>
                      </div>
+                  //map view
+                  // <FileModal key={item.idFile} idFile={item.idFile} file_name={item.file_name} file_data={item.file_data} file_type={item.file_type} ></FileModal>
+                    
                     );
 
                     setData(data) 
@@ -90,17 +78,18 @@ export default function Content(){
     })()
     }, [router.isReady]);
 
-
-    return( 
-        <>
-        <Layout>
+  return (
+    <>
+      <Layout>
+        {formButton}
+        {addFile}
         <Container gap={2} style={{ flexDirection: "column" }}>
           <br />
           {showMap}
 
           {data}
         </Container>
-        </Layout>
-        </>
-    )
+      </Layout>
+    </>
+  );
 }
