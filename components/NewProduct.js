@@ -92,8 +92,9 @@ export default function NewProduct(props) {
             product,
             token
         );
-        if (res['message'] === "Product Added") {
+        if (res['message'].startsWith("Product Added")) {
             // The request was successful (status code 2xx)
+            product['field_product_id'] =parseInt(res['message'].split(",")[1])   
             console.log("Call succeeded!");
             console.log("closed");
             props.updateProducts([...props.userProducts, product])

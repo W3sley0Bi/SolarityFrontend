@@ -141,7 +141,7 @@ export default function UpdateProduct(props) {
     >
       <Modal.Header>
         <Text id="modal-title" b size={18}>
-          Add PV Product
+          Update PV Product
         </Text>
       </Modal.Header>
       <Modal.Body>
