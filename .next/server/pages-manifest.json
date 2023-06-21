@@ -2,10 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
-  "/userFolder/[Uid]": "pages/userFolder/[Uid].js",
-  "/userFolder/[Uid]/CreateProject": "pages/userFolder/[Uid]/CreateProject.js",
-=======
->>>>>>> 8bd05ba19c90960bb72258337beeeae5b771b96e
-  "/userFolder/[Uid]/[Content]": "pages/userFolder/[Uid]/[Content].js"
+  "/userFolder/[Uid]/ModifyProfile": "pages/userFolder/[Uid]/ModifyProfile.js"
 }

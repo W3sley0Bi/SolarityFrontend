@@ -26,6 +26,7 @@ export default function ModifyProfile() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
+  
 
   async function confirmMods(){
     let conf = confirm("Do you wanna confirm this modifications?");
@@ -35,9 +36,9 @@ export default function ModifyProfile() {
     // if (inputCheckName(username) == "error" &&  inputCheckPassword(username) == "error" || username == "" && password == ""){
     //   alert("For security reason you have to change the username and the password")
     // }else{ 
-        const res = await fetchFun(`/updateProfile`, "POST", {uid,username,password}, token);
+        const res = await fetchFun(`/updateProfile`, "POST", {uid,username,password,email}, token);
         alert(res.message)
-        window.location.reload(false);
+        window.location.reload(true);
 
     //}
   };
@@ -58,10 +59,10 @@ export default function ModifyProfile() {
           if(res.result.length >= 0){
           const data = res.result.map((item) => (
             <div key={Uid} >
-                {setUsername(item.name)}
-                <Input clearable bordered placeholder={item.name} required={true} name='username' type="text" value={item.name} onChange={(e) => setUsername(e.target.value)} />
-                {/* {setUsername(item.email)}
-                <Input clearable bordered placeholder={item.email} required={true} name='email' type="email" value={email} onChange={(e) => setEmail(e.target.value)} /> */}
+
+                <Input clearable bordered placeholder={item.name} required={true} name='username' type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+
+                <Input clearable bordered placeholder={item.email} required={true} name='email' type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <p>access_token: {item.access_token}</p>
                 <Input clearable bordered placeholder={"*****"} required={true} name='password' type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <p>role: {item.role_fk}</p>

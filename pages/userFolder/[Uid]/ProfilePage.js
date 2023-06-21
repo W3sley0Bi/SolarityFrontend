@@ -66,6 +66,7 @@ export default function ProfilePage() {
                 <p>username: {item.name}</p>
                 <p>access_token: {item.access_token}</p>
                 <p>password: {item.password}</p>
+                <p>email: {item.email}</p>
                 <p>role: {item.role_fk}</p>
                 <RedirectHandler route={`/userFolder/${Uid}/ModifyProfile`}> Modify Profile </RedirectHandler>
                 <button onClick={deleteProfile} >Delete</button>

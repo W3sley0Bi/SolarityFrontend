@@ -25,23 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-<<<<<<< HEAD
-    "/userFolder/[Uid]": [
+    "/userFolder/[Uid]/ModifyProfile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/userFolder/[Uid].js"
-    ],
-    "/userFolder/[Uid]/CreateProject": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/userFolder/[Uid]/CreateProject.js"
-    ],
-=======
->>>>>>> 8bd05ba19c90960bb72258337beeeae5b771b96e
-    "/userFolder/[Uid]/[Content]": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/userFolder/[Uid]/[Content].js"
+      "static/chunks/pages/userFolder/[Uid]/ModifyProfile.js"
     ]
   },
   "ampFirstPages": []

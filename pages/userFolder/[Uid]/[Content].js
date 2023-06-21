@@ -5,7 +5,7 @@ import Layout from '../../../components/Layout';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFun } from '../../../js/fetchFun';
 import RedirectHandler from "../../../components/RedirectHandler";
-import { Container, Row, Col, Spacer } from "@nextui-org/react";
+import { Container, Input, Row, Col, Spacer } from "@nextui-org/react";
 import Loader from "../../../components/Loader"
 import dynamic from 'next/dynamic'
 
@@ -70,16 +70,14 @@ export default function Content(){
                     <br/>
                     <br/>
                     <br/>
-                    <button onClick={() => {removeElement(item.project_id,item.field_product_id)}}>Delete Element</button>
+                    {/* maybe just in the modification??????? */}
+                    {/* <button onClick={() => {removeElement(item.project_id,item.field_product_id)}}>Delete Element</button> */}
                      </div>
-                  //map view
-                  // <FileModal key={item.idFile} idFile={item.idFile} file_name={item.file_name} file_data={item.file_data} file_type={item.file_type} ></FileModal>
-                    
                     );
 
                     setData(data) 
 
-                    //setShowMap(<><DynamicMap products={res['result']}></DynamicMap></>)
+                    setShowMap(<><DynamicMap products={res['result']}></DynamicMap></>)
             
                 }else{
                   //retrive company data here
@@ -98,8 +96,8 @@ export default function Content(){
         <Layout>
         <Container gap={2} style={{ flexDirection: "column" }}>
           <br />
-          {//showMap}
-}
+          {showMap}
+
           {data}
         </Container>
         </Layout>

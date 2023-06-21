@@ -20,7 +20,6 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     console.log(window.safeAreaInsets);
-
     const topInset = window?.safeAreaInsets?.top || 0;
     setTopPadding(topInset);
   }, []);

@@ -23,12 +23,14 @@ export default function Home() {
 
     (async () => {
       //user role
-      if (role*1 !== 1) {
+      if(uid == ""){
+        router.push(`/Login`);
+      } else if (role*1 !== 1) {
         router.push(`/userFolder/${uid}`);
       }else{
       const res = await fetchFun("/workers", "GET", {}, token);
       console.log(res)
-     // alert(res)
+
       if (res === 401) {
 
         router.push("/Login");

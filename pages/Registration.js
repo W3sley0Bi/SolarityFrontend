@@ -8,14 +8,16 @@ import Layout from '../components/Layout';
 import { Container, Row, Col, Spacer } from '@nextui-org/react';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFun } from "../js/fetchFun";
-import {inputCheckName ,inputCheckPass} from "../js/inputCheckers" 
+import {inputCheckName ,inputCheckPass ,inputCheckEmail} from "../js/inputCheckers" 
 
 export default function Registration(){
     const { theme } = useTheme();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
     const [inputStatusUsername, setInputStatusUsername] = useState("");
     const [inputStatusPassword, setInputStatusPassword] = useState("");
+    const [inputStatusEmail, setInputStatusEmail] = useState("");
     const token = useSelector((state) => state.token.value);
     const uid = useSelector((state) => state.uid.value);
     const options = [1,2,3,4]
@@ -24,13 +26,12 @@ export default function Registration(){
 
 
   const handleSubmit = async (event) => {
-  if (inputCheckName(username) == "error" &&  inputCheckPass(username) == "error" || username == "" && password == ""){
+  if (inputCheckName(username) == "error" && inputCheckEmail(email) == 'error' &&  inputCheckPass(username) == "error" || username == "" && password == "" && email == ""){
     alert("Input values not valid")
   }else{ 
-    const res = await fetchFun("/registration", "POST", {username,password,role}, token);
+    const res = await fetchFun("/registration", "POST", {username,password,email,role}, token);
         alert(`user added correctly`)
         router.push('/')
-
   };
   };
   return (
@@ -51,6 +52,18 @@ export default function Registration(){
                   status={inputStatusUsername}
                   onBlur={async () => setInputStatusUsername(await inputCheckName(username))}
                   onChange={(e) => setUsername(e.target.value)}
+                />
+  <Spacer y={1.2} />
+  </Col>
+  <Col align="center">
+  <Input
+                  className="element"
+                  labelPlaceholder="Email"
+                  value={email}
+                  bordered
+                  status={inputStatusEmail}
+                  onBlur={async () => setInputStatusEmail(await inputCheckEmail(email))}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
   <Spacer y={1.2} />
   </Col>

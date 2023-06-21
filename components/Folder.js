@@ -16,7 +16,7 @@ export default function Folder(prop){
     const role = useSelector((state) => state.role.value);
     const token = useSelector((state) => state.token.value);
     const [deleteButton, setDeleteButton] = useState();
-  
+    const [editButton, setEditButton] = useState()
 
     async function deleteProject(id) {
       let conf = confirm("Are you sure you wanna delete the project?");
@@ -33,7 +33,7 @@ export default function Folder(prop){
      //console.log(res)
      location.reload()
  }
- 
+
 
     useMemo(() => {
       /* to do 
@@ -50,6 +50,17 @@ export default function Folder(prop){
           />
           </>
         );
+        setEditButton( 
+        <>        <Spacer y={.5}/>
+        <img onClick={() => router.push(`/userFolder/${prop.Uid}/${prop.id}/ModifyContent`)}
+          src="https://cdn-icons-png.flaticon.com/128/420/420140.png"
+          width="50px"
+          height="50px"
+          alt="delete"
+          style={{marginRight: "10px"}}
+        />
+        </>)
+
       }else{
         setDeleteButton(
           <>        <Spacer y={.5}/>
@@ -67,6 +78,7 @@ export default function Folder(prop){
     return(
 <>
 <Row>
+{editButton}
     <Container
               key={prop.id}
               style={{

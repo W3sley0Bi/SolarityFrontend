@@ -12,6 +12,7 @@ import { fetchFun } from "../../js/fetchFun"
 import Loader from "../../components/Loader"
 import NoData from "../../components/NoData";
 
+
 export default function UserFolders() {
   const router = useRouter();
   const { Uid } = router.query;
