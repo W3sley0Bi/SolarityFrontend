@@ -15,6 +15,7 @@ import { useMapEvent } from "react-leaflet/hooks";
 import NewProduct from "../components/NewProduct";
 import UpdateProduct from "../components/UpdateProduct";
 import { fetchFun } from "../js/fetchFun";
+import { useRouter } from "next/router";
 
 export default function showMap(props) {
   const [addedMarker, setAddedMarker] = useState(null);
@@ -23,6 +24,9 @@ export default function showMap(props) {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const token = useSelector((state) => state.token.value);
+
+  const router = useRouter();
+  const { Uid, Content } = router.query;
 
   const [updateModal, setUpdateModal] = useState(false);
   const [newModal, setNewModal] = useState(false);
@@ -90,7 +94,26 @@ export default function showMap(props) {
   };
 
   const selectedDeleteHandle = (selectedp) => {
+
+    (async() => {
+
+      const res = await fetchFun(`/deleteProjectContentElement`, "POST", {"project_id": Content,"field_product_id":selectedp['field_product_id']}, token);
     
+      const index = userProducts.findIndex(obj => obj['field_product_id'] === selectedp['field_product_id']);
+  
+      if (index !== -1) {
+        // If a match is found, create a new state array with the replaced object
+        const updatedState = [
+          ...userProducts.slice(0, index),
+          ...userProducts.slice(index + 1)
+        ];
+  
+        setUserProducts(updatedState)
+
+    }
+  })();
+
+
   };
 
   return (
