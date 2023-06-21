@@ -2,10 +2,10 @@ import { MapContainer } from "react-leaflet/MapContainer";
 import { TileLayer } from "react-leaflet/TileLayer";
 import { Marker } from "react-leaflet";
 import { Popup } from "react-leaflet";
-import { useState, ListView, useEffect} from "react";
-import { useSelector } from "react-redux"
+import { useState, ListView, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Layout from "../components/Layout";
-import { Button } from "@nextui-org/react";
+import { Button, Popover, Row } from "@nextui-org/react";
 import { fetchFast } from "../js/fetchFun";
 import { Grid } from "@nextui-org/react";
 import { Spacer } from "@nextui-org/react";
@@ -14,38 +14,30 @@ import { Card, Text } from "@nextui-org/react";
 import { useMapEvent } from "react-leaflet/hooks";
 import NewProduct from "../components/NewProduct";
 import UpdateProduct from "../components/UpdateProduct";
-import { fetchFun } from "../js/fetchFun"
+import { fetchFun } from "../js/fetchFun";
 
 export default function showMap(props) {
-  
   const [addedMarker, setAddedMarker] = useState(null);
   const [showError, setShowError] = useState(false);
   const [searchQ, setSearchQ] = useState("");
-  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const token = useSelector((state) => state.token.value);
-
 
   const [updateModal, setUpdateModal] = useState(false);
   const [newModal, setNewModal] = useState(false);
   const [companyProducts, setCompanyProducts] = useState([]);
   const [userProducts, setUserProducts] = useState(props.products);
 
-
-  useEffect(() =>{
-    getProducts()
-  }, [])
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   const getProducts = async () => {
     const res2 = await fetchFun(`/getAllProducts`, "GET", {}, token);
-    console.log(res2)
+    console.log(res2);
     setCompanyProducts(res2);
   };
-
-
-
-
-
 
   const handleMapClick = (e) => {
     const { lat, lng } = e.latlng;
@@ -61,7 +53,6 @@ export default function showMap(props) {
       setShowError(false);
     }
   };
-
 
   const handleSubmit = () => {
     (async () => {
@@ -94,9 +85,13 @@ export default function showMap(props) {
   };
 
   const selectedUpdateHandle = (selectedp) => {
-    setSelectedProduct(selectedp)
-    setUpdateModal(true)
-  }
+    setSelectedProduct(selectedp);
+    setUpdateModal(true);
+  };
+
+  const selectedDeleteHandle = (selectedp) => {
+    
+  };
 
   return (
     <div>
@@ -168,12 +163,52 @@ export default function showMap(props) {
                     <Text b>Longitude: {product.lon}</Text>
                   </Grid>
                   <Grid>
-                    <Button size="xs" color="warning" auto>
-                      Delete
-                    </Button>
+                    <Popover placement="top">
+                      <Popover.Trigger>
+                        <Button size="xs" color="error" auto>
+                          Delete
+                        </Button>
+                      </Popover.Trigger>
+                      <Popover.Content
+                        css={{
+                          borderRadius: "14px",
+                          padding: "0.75rem",
+                          maxWidth: "330px",
+                        }}
+                      >
+                        <Row justify="center" align="center">
+                          <Text b>Confirm</Text>
+                        </Row>
+                        <Row>
+                          <Text>
+                            Are you sure you want to delete this product ? This action is irreversible
+                          </Text>
+                        </Row>
+                        <Grid.Container
+                          justify="space-between"
+                          alignContent="flex-end"
+                        >
+                          <Grid>
+                            <Button
+                              size="xs"
+                              color="error"
+                              auto
+                              onClick={() => selectedDeleteHandle(product)}
+                            >
+                              Yes Delete
+                            </Button>
+                          </Grid>
+                        </Grid.Container>
+                      </Popover.Content>
+                    </Popover>
                   </Grid>
                   <Grid>
-                    <Button size="xs" color="primary" auto onClick={(() => selectedUpdateHandle(product))}>
+                    <Button
+                      size="xs"
+                      color="primary"
+                      auto
+                      onClick={() => selectedUpdateHandle(product)}
+                    >
                       Update
                     </Button>
                   </Grid>
@@ -195,7 +230,7 @@ export default function showMap(props) {
         />
       )}
 
-    {updateModal && (
+      {updateModal && (
         <UpdateProduct
           show={{ updateModal }}
           stateChanger={setUpdateModal}
