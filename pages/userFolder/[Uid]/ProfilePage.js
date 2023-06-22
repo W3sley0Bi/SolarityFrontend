@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Input } from "@nextui-org/react";
+import { Input, Button } from "@nextui-org/react";
 import RedirectHandler from "../../../components/RedirectHandler";
 import Folder from "../../../components/Folder";
 import {Container, Spacer} from "@nextui-org/react";
@@ -47,6 +47,15 @@ export default function ProfilePage() {
     window.location.reload(false);
   }
 
+  async function editProfile(route,value){
+    const data = prompt(value)
+    if (data) {
+      const res = await fetchFun(route, "POST", {uid,data}, token);
+      alert(res.message)
+      window.location.reload(false)
+    }
+
+  }
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -63,16 +72,16 @@ export default function ProfilePage() {
           if(res.result.length >= 0){
           const data = res.result.map((item) => (
             <div key={Uid} >
-                <p>username: {item.name}</p>
+                <p>username: {item.name} <button onClick={()=> editProfile('/updateUsername', 'edit your username')}> edit </button> </p>
                 <p>access_token: {item.access_token}</p>
-                <p>password: {item.password}</p>
-                <p>email: {item.email}</p>
+                <p>password: {item.password}<button onClick={()=> editProfile('/updatePassword', 'edit your password')}> edit </button></p>
+                <p>email: {item.email}<button onClick={()=> editProfile('/updateEmail', 'edit your Email')}> edit </button></p>
                 <p>role: {item.role_fk}</p>
-                <RedirectHandler route={`/userFolder/${Uid}/ModifyProfile`}> Modify Profile </RedirectHandler>
-                <button onClick={deleteProfile} >Delete</button>
+
+                <Button onClick={deleteProfile} >Delete</Button>
                 <Spacer gap={1}/>
                 
-                {role == 2 ? <button onClick={updateToPremium}> Update </button> : null}
+                {role == 2 ? <Button onClick={updateToPremium}> Update </Button> : null}
             </div>
             
           ));
