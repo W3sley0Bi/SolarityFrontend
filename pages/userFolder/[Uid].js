@@ -61,10 +61,11 @@ export default function UserFolders() {
               </Folder>
             ));
             setFolders(folders);
-            setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Active Projects</h3>)
+            
           } else {
             setFolders(<NoData></NoData>);
           }
+          setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Active Projects</h3>)
         }
         } else if(activePage == 2){
           const res = await fetchFun(`/closedUserFolder/${Uid}`, "GET", {}, token);
@@ -88,10 +89,11 @@ export default function UserFolders() {
               </Folder>
             ));
             setFolders(folders);
-            setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Closed Projects</h3>)
+            
           } else {
             setFolders(<NoData></NoData>);
           }
+          setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Closed Projects</h3>)
         }
         }else if(activePage == 3){
           const res = await fetchFun(`/userFolder/${Uid}`, "GET", {}, token);
@@ -115,10 +117,11 @@ export default function UserFolders() {
               </Folder>
             ));
             setFolders(folders);
-            setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>All Projects</h3>)
+            
           } else {
             setFolders(<NoData></NoData>);
           }
+          setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>All Projects</h3>)
         }
       }
       } else if (role == 4) {
