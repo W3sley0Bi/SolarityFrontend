@@ -48,7 +48,7 @@ export const fetchFun = async (url, method, body, token) => {
 export const fetchFast = async (url, method) => {
   let res;
 
-  res = await fetch(`http://localhost:8000${url}`, {
+  res = await fetch(`${process.env.NEXT_PUBLIC_NODE_SERVER}${url}`, {
     method: `${method}`,
     headers: {
     }

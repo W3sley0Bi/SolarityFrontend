@@ -73,17 +73,17 @@ export default function NewProduct(props) {
     (async() => {
 
         const utc = await fetchFast(
-            `/getUTC&q=${lat},${lng}`,
+            `/getUTC?lat=${lat}&lng=${lng}`,
             "GET",
           );
-        console.log(utc)
+        console.log(utc.utc)
         let product = {
             "company_product_id": selected.values().next().value,
             "lat": lat,
             "lon": lng,
             "orientation" : orientation.charAt(0).toUpperCase(),
             "tilt": tiltAngle,
-            "utc_offset": utc
+            "utc_offset": utc.utc
         }
 
         const res = await fetchFun(

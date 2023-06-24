@@ -86,7 +86,7 @@ export default function showMap(props) {
     }
 
     (async () => {
-      let query = `/locationsearch&q=${encodeURIComponent(searchQ)}`;
+      let query = `/locationsearch?location=${encodeURIComponent(searchQ)}`;
       let res = await fetchFast(query, "GET");
       if (res["result"][0] === undefined) {
         setErrorMsg("No Location Was Found");

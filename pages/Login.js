@@ -45,6 +45,7 @@ export default function Login() {
           if(res == 401){
             alert("User not found in the DB or wrong input data")
           }else{
+            console.log(res)
           settingOnLoginStorage(dispatch, res.token,res.userData.Uid,res.userData.Role)
           }
         }

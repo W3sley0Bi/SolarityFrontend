@@ -112,7 +112,7 @@ export default function NavbarComp(){
                                 
               <Navbar.Link onClick={() => router.push("/")}>Home</Navbar.Link>
               {userReg}
-              <Navbar.Link href="mailto:roadstore.noreply@gmail.com">Help & Feedback</Navbar.Link>
+              <Navbar.Link href={`${process.env.NEXT_PUBLIC_NODE_SERVER}/api-docs/`}  target="_blank">APIs Docs</Navbar.Link>
               <Navbar.Link href="https://lk-distribution.fr/" target="_blank">Company</Navbar.Link>
     
             </Navbar.Content>

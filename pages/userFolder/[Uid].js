@@ -72,10 +72,6 @@ export default function UserFolders() {
         if (res === 401) {
           router.push("/Login");
         } else {
-          if(res.length == 1 && role == 2){
-            disbaleButton = true
-            redirectButtonText = " Upgrade account for more projects "
-          }
           if (res.length > 0) {
             console.log(res)
             const folders = res.map((item) => (
@@ -100,10 +96,6 @@ export default function UserFolders() {
         if (res === 401) {
           router.push("/Login");
         } else {
-          if(res.length == 1 && role == 2){
-            disbaleButton = true
-            redirectButtonText = " Upgrade account for more projects "
-          }
           if (res.length > 0) {
             console.log(res)
             const folders = res.map((item) => (

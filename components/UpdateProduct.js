@@ -75,10 +75,10 @@ export default function UpdateProduct(props) {
     (async() => {
 
         const utc = await fetchFast(
-            `/getUTC&q=${lat},${lng}`,
+            `/getUTC?lat=${lat}&lng=${lng}`,
             "GET",
           );
-        console.log(utc)
+        console.log(utc.utc)
         console.log(selectedProduct.field_product_id)
 
         const updateP = {   
@@ -87,7 +87,7 @@ export default function UpdateProduct(props) {
             "lon": lng,
             "orientation" : orientation.charAt(0).toUpperCase(),
             "tilt": tiltAngle,
-            "utc_offset": utc,
+            "utc_offset": utc.utc,
             "field_product_id": selectedProduct['field_product_id']
         }
 
