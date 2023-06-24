@@ -77,6 +77,7 @@ export default function UpdateProduct(props) {
         const utc = await fetchFast(
             `/getUTC?lat=${lat}&lng=${lng}`,
             "GET",
+            token
           );
         console.log(utc.utc)
         console.log(selectedProduct.field_product_id)

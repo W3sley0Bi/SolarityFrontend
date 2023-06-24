@@ -75,6 +75,7 @@ export default function NewProduct(props) {
         const utc = await fetchFast(
             `/getUTC?lat=${lat}&lng=${lng}`,
             "GET",
+            token
           );
         console.log(utc.utc)
         let product = {
