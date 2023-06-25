@@ -52,6 +52,7 @@ export default function UserFolders() {
             console.log(res)
             const folders = res.map((item) => (
               <Folder
+                closeProjectButtonText={"Close Project"}
                 key={item.idProject}
                 id={item.idProject}
                 Uid={Uid}
@@ -68,6 +69,32 @@ export default function UserFolders() {
           setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Active Projects</h3>)
         }
         } else if(activePage == 2){
+          const res = await fetchFun(`/inProgressUserFolder/${Uid}`, "GET", {}, token);
+        if (res === 401) {
+          router.push("/Login");
+        } else {
+          if (res.length > 0) {
+            console.log(res)
+            const folders = res.map((item) => (
+              <Folder
+                closeProjectButtonText={"closing in progress..."}
+                disabled={true}
+                key={item.idProject}
+                id={item.idProject}
+                Uid={Uid}
+                name={item.name}
+              >
+                {" "}
+              </Folder>
+            ));
+            setFolders(folders);
+            
+          } else {
+            setFolders(<NoData></NoData>);
+          }
+          setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Calculations in Progress Projects</h3>)
+        }
+        }else if(activePage == 3){
           const res = await fetchFun(`/closedUserFolder/${Uid}`, "GET", {}, token);
         if (res === 401) {
           router.push("/Login");
@@ -76,6 +103,8 @@ export default function UserFolders() {
             console.log(res)
             const folders = res.map((item) => (
               <Folder
+              closeProjectButtonText={"Project Closed"}
+                disabled={true}
                 key={item.idProject}
                 id={item.idProject}
                 Uid={Uid}
@@ -91,23 +120,42 @@ export default function UserFolders() {
           }
           setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Closed Projects</h3>)
         }
-        }else if(activePage == 3){
+        }else if(activePage == 4){
           const res = await fetchFun(`/userFolder/${Uid}`, "GET", {}, token);
         if (res === 401) {
           router.push("/Login");
         } else {
           if (res.length > 0) {
             console.log(res)
-            const folders = res.map((item) => (
-              <Folder
-                key={item.idProject}
-                id={item.idProject}
-                Uid={Uid}
-                name={item.name}
-              >
-                {" "}
-              </Folder>
-            ));
+
+            let folders = res.map((item) => {
+              let disabled;
+              let closeProjectButtonText;
+            
+              if (item.status === 0) {
+                disabled = false;
+                closeProjectButtonText = "Close Project";
+              } else if (item.status === 1) {
+                disabled = true;
+                closeProjectButtonText = "closing in progress...";
+              } else if (item.status === 2) {
+                disabled = true;
+                closeProjectButtonText = "Project Closed";
+              }
+            
+              return (
+                <Folder
+                  disabled={disabled}
+                  closeProjectButtonText={closeProjectButtonText}
+                  key={item.idProject}
+                  id={item.idProject}
+                  Uid={Uid}
+                  name={item.name}
+                >
+                </Folder>
+              );
+            });
+            
             setFolders(folders);
             
           } else {
@@ -172,7 +220,7 @@ export default function UserFolders() {
         
         <Container gap={2} style={{ flexDirection: "column" }}>
         <br />
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" } }><Pagination total={3} onChange={handlePageChange} initialPage={1} /></div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" } }><Pagination total={4} onChange={handlePageChange} initialPage={1} /></div>
         <br />
         <br />
         {activePageText}
