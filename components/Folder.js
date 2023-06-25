@@ -28,18 +28,17 @@ export default function Folder(prop) {
     location.reload();
   }
 
-  async function startClosingProcess(id) {
-    let conf = confirm("Are you sure you wanna close this project? this product?");
+  async function startClosingProcess(id, duration) {
+    let conf = confirm(
+      "Are you sure you wanna close this project? this product?"
+    );
     if (!conf) return;
-    const res = await fetchFun("/startCalculations", "POST", { id }, token)
-    console.log(res)
+    let forcedCalc = true
+    const res = await fetchFun("/startCalculations", "POST", { id, duration, forcedCalc}, token);
+    console.log(res);
     //console.log(res)
     location.reload();
   }
-
-
-
-
 
   useMemo(() => {
     /* to do 
@@ -122,10 +121,20 @@ export default function Folder(prop) {
             <div style={{ flexDirection: "column" }}>
               <p style={{ color: "white" }}>ID: {prop.id}</p>
               <p style={{ color: "white" }}>Name: {prop.name}</p>
+              {prop.duration ? (
+                <p style={{ color: "white" }}>Duration: {prop.duration}</p>
+              ) : null}
             </div>
           </Link>
-  
-          <Button disabled={prop.disabled} onClick={()=> startClosingProcess(prop.id)} style={{ float: "right", marginTop:"3%" }} > {prop.closeProjectButtonText} </Button>
+
+          <Button
+            disabled={prop.disabled}
+            onClick={() => startClosingProcess(prop.id,prop.duration)}
+            style={{ float: "right", marginTop: "3%" }}
+          >
+            {" "}
+            {prop.closeProjectButtonText}{" "}
+          </Button>
         </Container>
         {deleteButton}
       </Row>

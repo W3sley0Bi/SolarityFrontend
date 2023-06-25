@@ -58,6 +58,7 @@ export default function UserFolders() {
                   id={item.idProject}
                   Uid={Uid}
                   name={item.name}
+                  duration={item.duration} 
                 >
                   {" "}
                 </Folder>
@@ -169,10 +170,11 @@ export default function UserFolders() {
               let folders = res.map((item) => {
                 let disabled;
                 let closeProjectButtonText;
-
+                let duration;
                 if (item.status === 0) {
                   disabled = false;
                   closeProjectButtonText = "Close Project";
+                  duration=item.duration;
                 } else if (item.status === 1) {
                   disabled = true;
                   closeProjectButtonText = "closing in progress...";
@@ -189,6 +191,7 @@ export default function UserFolders() {
                     id={item.idProject}
                     Uid={Uid}
                     name={item.name}
+                    duration={duration}
                   ></Folder>
                 );
               });
