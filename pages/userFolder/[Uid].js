@@ -12,10 +12,6 @@ import { fetchFun } from "../../js/fetchFun";
 import Loader from "../../components/Loader";
 import NoData from "../../components/NoData";
 
-
-
-
-
 export default function UserFolders() {
   const router = useRouter();
   const { Uid } = router.query;
@@ -26,9 +22,11 @@ export default function UserFolders() {
   const [addFolder, setAddFolder] = useState();
   const [activePage, setActivePage] = useState(1);
   const [activePageText, setActivePageText] = useState(1);
+  const [disbaleButton, setDisbaleButton] = useState(1);
+  const [redirectButtonText, setRedirectButtonText] = useState(1);
 
-  function handlePageChange(page){
-    setActivePage(page)
+  function handlePageChange(page) {
+    setActivePage(page);
   }
 
   useEffect(() => {
@@ -36,142 +34,188 @@ export default function UserFolders() {
 
     (async () => {
       //user role
-    let disbaleButton
-    let redirectButtonText = " + Create Project "
       if ((Uid == uid || role == 1) && role != 4) {
-        if(activePage == 1){
-        const res = await fetchFun(`/openUserFolder/${Uid}`, "GET", {}, token);
-        if (res === 401) {
-          router.push("/Login");
-        } else {
-          if(res.length == 1 && role == 2){
-            disbaleButton = true
-            redirectButtonText = " Upgrade account for more projects "
-          }
-          if (res.length > 0) {
-            console.log(res)
-            const folders = res.map((item) => (
-              <Folder
-                closeProjectButtonText={"Close Project"}
-                key={item.idProject}
-                id={item.idProject}
-                Uid={Uid}
-                name={item.name}
-              >
-                {" "}
-              </Folder>
-            ));
-            setFolders(folders);
-            
+        if (activePage == 1) {
+          const res = await fetchFun(
+            `/openUserFolder/${Uid}`,
+            "GET",
+            {},
+            token
+          );
+          if (res === 401) {
+            router.push("/Login");
           } else {
-            setFolders(<NoData></NoData>);
-          }
-          setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Active Projects</h3>)
-        }
-        } else if(activePage == 2){
-          const res = await fetchFun(`/inProgressUserFolder/${Uid}`, "GET", {}, token);
-        if (res === 401) {
-          router.push("/Login");
-        } else {
-          if (res.length > 0) {
-            console.log(res)
-            const folders = res.map((item) => (
-              <Folder
-                closeProjectButtonText={"closing in progress..."}
-                disabled={true}
-                key={item.idProject}
-                id={item.idProject}
-                Uid={Uid}
-                name={item.name}
-              >
-                {" "}
-              </Folder>
-            ));
-            setFolders(folders);
-            
-          } else {
-            setFolders(<NoData></NoData>);
-          }
-          setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Calculations in Progress Projects</h3>)
-        }
-        }else if(activePage == 3){
-          const res = await fetchFun(`/closedUserFolder/${Uid}`, "GET", {}, token);
-        if (res === 401) {
-          router.push("/Login");
-        } else {
-          if (res.length > 0) {
-            console.log(res)
-            const folders = res.map((item) => (
-              <Folder
-              closeProjectButtonText={"Project Closed"}
-                disabled={true}
-                key={item.idProject}
-                id={item.idProject}
-                Uid={Uid}
-                name={item.name}
-              >
-                {" "}
-              </Folder>
-            ));
-            setFolders(folders);
-            
-          } else {
-            setFolders(<NoData></NoData>);
-          }
-          setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Closed Projects</h3>)
-        }
-        }else if(activePage == 4){
-          const res = await fetchFun(`/userFolder/${Uid}`, "GET", {}, token);
-        if (res === 401) {
-          router.push("/Login");
-        } else {
-          if (res.length > 0) {
-            console.log(res)
-
-            let folders = res.map((item) => {
-              let disabled;
-              let closeProjectButtonText;
-            
-              if (item.status === 0) {
-                disabled = false;
-                closeProjectButtonText = "Close Project";
-              } else if (item.status === 1) {
-                disabled = true;
-                closeProjectButtonText = "closing in progress...";
-              } else if (item.status === 2) {
-                disabled = true;
-                closeProjectButtonText = "Project Closed";
-              }
-            
-              return (
+            if (res.length == 1 && role == 2) {
+              setDisbaleButton(true);
+              setRedirectButtonText("Upgrade account for more projects");
+            }
+            if (res.length > 0) {
+              console.log(res);
+              const folders = res.map((item) => (
                 <Folder
-                  disabled={disabled}
-                  closeProjectButtonText={closeProjectButtonText}
+                  closeProjectButtonText={"Close Project"}
                   key={item.idProject}
                   id={item.idProject}
                   Uid={Uid}
                   name={item.name}
                 >
+                  {" "}
                 </Folder>
-              );
-            });
-            
-            setFolders(folders);
-            
-          } else {
-            setFolders(<NoData></NoData>);
+              ));
+              setFolders(folders);
+            } else {
+              setFolders(<NoData></NoData>);
+            }
+            setActivePageText(
+              <h3
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Active Projects
+              </h3>
+            );
           }
-          setActivePageText(<h3 style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>All Projects</h3>)
+        } else if (activePage == 2) {
+          const res = await fetchFun(
+            `/inProgressUserFolder/${Uid}`,
+            "GET",
+            {},
+            token
+          );
+          if (res === 401) {
+            router.push("/Login");
+          } else {
+            if (res.length > 0) {
+              console.log(res);
+              const folders = res.map((item) => (
+                <Folder
+                  closeProjectButtonText={"closing in progress..."}
+                  disabled={true}
+                  key={item.idProject}
+                  id={item.idProject}
+                  Uid={Uid}
+                  name={item.name}
+                >
+                  {" "}
+                </Folder>
+              ));
+              setFolders(folders);
+            } else {
+              setFolders(<NoData></NoData>);
+            }
+            setActivePageText(
+              <h3
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Calculations in Progress Projects
+              </h3>
+            );
+          }
+        } else if (activePage == 3) {
+          const res = await fetchFun(
+            `/closedUserFolder/${Uid}`,
+            "GET",
+            {},
+            token
+          );
+          if (res === 401) {
+            router.push("/Login");
+          } else {
+            if (res.length > 0) {
+              console.log(res);
+              const folders = res.map((item) => (
+                <Folder
+                  closeProjectButtonText={"Project Closed"}
+                  disabled={true}
+                  key={item.idProject}
+                  id={item.idProject}
+                  Uid={Uid}
+                  name={item.name}
+                >
+                  {" "}
+                </Folder>
+              ));
+              setFolders(folders);
+            } else {
+              setFolders(<NoData></NoData>);
+            }
+            setActivePageText(
+              <h3
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Closed Projects
+              </h3>
+            );
+          }
+        } else if (activePage == 4) {
+          const res = await fetchFun(`/userFolder/${Uid}`, "GET", {}, token);
+          if (res === 401) {
+            router.push("/Login");
+          } else {
+            if (res.length > 0) {
+              console.log(res);
+
+              let folders = res.map((item) => {
+                let disabled;
+                let closeProjectButtonText;
+
+                if (item.status === 0) {
+                  disabled = false;
+                  closeProjectButtonText = "Close Project";
+                } else if (item.status === 1) {
+                  disabled = true;
+                  closeProjectButtonText = "closing in progress...";
+                } else if (item.status === 2) {
+                  disabled = true;
+                  closeProjectButtonText = "Project Closed";
+                }
+
+                return (
+                  <Folder
+                    disabled={disabled}
+                    closeProjectButtonText={closeProjectButtonText}
+                    key={item.idProject}
+                    id={item.idProject}
+                    Uid={Uid}
+                    name={item.name}
+                  ></Folder>
+                );
+              });
+
+              setFolders(folders);
+            } else {
+              setFolders(<NoData></NoData>);
+            }
+            setActivePageText(
+              <h3
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                All Projects
+              </h3>
+            );
+          }
         }
-      }
       } else if (role == 4) {
         const res = await fetchFun(`/companyFolder/${Uid}`, "GET", {}, token);
         if (res === 401) {
           router.push("/Login");
         } else {
-
           if (res.length > 0) {
-            
             const folders = res.map((item) => (
               <Folder
                 key={item.product_id}
@@ -193,15 +237,20 @@ export default function UserFolders() {
 
       if (role != 4) {
         let addFolderbutton = (
-          <RedirectHandler disabled={disbaleButton} route={`${Uid}/CreateProject`}>
+          <RedirectHandler
+            disabled={disbaleButton}
+            route={`${Uid}/CreateProject`}
+          >
             {" "}
-            {redirectButtonText} {" "}
+            {redirectButtonText}{" "}
           </RedirectHandler>
         );
         setAddFolder(addFolderbutton);
       } else {
         let addFolderbutton = (
-          <RedirectHandler route={(!showProjectLimit ? `${Uid}/CreateProduct` : "")}>
+          <RedirectHandler
+            route={!showProjectLimit ? `${Uid}/CreateProduct` : ""}
+          >
             {" "}
             + Create Product{" "}
           </RedirectHandler>
@@ -209,21 +258,29 @@ export default function UserFolders() {
         setAddFolder(addFolderbutton);
       }
     })();
-  }, [router.isReady, router,activePage]);
+  }, [router.isReady, router, activePage, disbaleButton, redirectButtonText]);
 
   return (
     <>
       <Layout>
         {/* {coditional rendering here for the button if the he has the role. then chek also the} */}
         {addFolder}
-        <br/>
-        
+        <br />
+
         <Container gap={2} style={{ flexDirection: "column" }}>
-        <br />
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" } }><Pagination total={4} onChange={handlePageChange} initialPage={1} /></div>
-        <br />
-        <br />
-        {activePageText}
+          <br />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Pagination total={4} onChange={handlePageChange} initialPage={1} />
+          </div>
+          <br />
+          <br />
+          {activePageText}
           <br />
           {folders}
         </Container>
