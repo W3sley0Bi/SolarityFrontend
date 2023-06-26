@@ -29,6 +29,13 @@ export default function UserFolders() {
     setActivePage(page);
   }
 
+  async function calculationNeeded(id,duration){
+    let forcedCalc = true
+    const res = await fetchFun("/startCalculations", "POST", { id, duration, forcedCalc}, token);
+    console.log(res);
+    location.reload();
+  }
+
   useEffect(() => {
     if (!router.isReady) return;
 
@@ -51,19 +58,42 @@ export default function UserFolders() {
             }
             if (res.length > 0) {
               console.log(res);
-              const folders = res.map((item) => (
-                <Folder
-                  closeProjectButtonText={"Close Project"}
-                  key={item.idProject}
-                  id={item.idProject}
-                  Uid={Uid}
-                  name={item.name}
-                  duration={item.duration} 
-                  status={item.status}
-                >
-                  {" "}
-                </Folder>
-              ));
+              const folders = res.map((item) => {
+                let date = item.start_date;
+                let duration = item.duration;
+
+                let today = new Date(); // Current date
+              
+                let startdate = new Date(date)
+
+            
+                const differenceMs = today - startdate;
+                const oneDayMs = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+            
+                const daysDifference = Math.floor(differenceMs / oneDayMs);
+                console.log(daysDifference)
+
+                // duration passed
+
+                if(daysDifference >= duration){
+                  calculationNeeded(item.idProject, duration)
+                }
+
+                return (
+                  <Folder
+                    closeProjectButtonText={"Close Project"}
+                    key={item.idProject}
+                    id={item.idProject}
+                    Uid={Uid}
+                    name={item.name}
+                    duration={item.duration}
+                    status={item.status}
+                  >
+                    {" "}
+                  </Folder>
+                );
+              });
+
               setFolders(folders);
             } else {
               setFolders(<NoData></NoData>);
@@ -167,10 +197,9 @@ export default function UserFolders() {
               console.log(res);
 
               let folders = res.map((item) => {
-
                 let duration = item.duration;
-                console.log(item.duration)
-                console.log(item.status)
+                console.log(item.duration);
+                console.log(item.status);
 
                 return (
                   <Folder
