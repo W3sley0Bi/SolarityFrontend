@@ -7,11 +7,13 @@ import { useTheme as useNextTheme } from 'next-themes'
 import { Switch, useTheme } from '@nextui-org/react'
 import  SunIcon  from './SunIcon';
 import  MoonIcon  from './MoonIcon';
+import { fetchFun } from "/js/fetchFun";
 
 export default function NavbarComp(){
 
     const uid = useSelector((state) => state.uid.value);
     const role = useSelector((state) => state.role.value);
+    const token = useSelector((state) => state.token.value);
     const [userImg,setUserImg] = useState("")
     const [userReg,setUserReg] = useState("")
     const [showSync,setShowSync] = useState(false)
@@ -19,6 +21,17 @@ export default function NavbarComp(){
     const router = useRouter()
     const { setTheme } = useNextTheme();
     const { isDark, type } = useTheme();
+
+    async function syncWeather(){
+      let conf = window.confirm("Are you sure you want to proceed?");
+      if(!conf){
+        return
+      }else{
+      const res = await fetchFun("/forcesync", "POST", { uid }, token);
+      }
+      location.reload();
+
+    }
     
     useEffect(()=>{
         if(uid !=undefined){
@@ -101,7 +114,7 @@ export default function NavbarComp(){
           }>
           <img src="	https://cdn-icons-png.flaticon.com/512/553/553416.png" width="20px" alt="" />
           </div>  
-          { showSync && (<div  onClick={()=> location.reload()} className="backButton" style={{
+          { showSync && (<div  onClick={(()=> syncWeather())} className="backButton" style={{
                 border: "2px solid",
                 borderRadius: "23px",
                 padding: "6px 6px 0px 6px"
