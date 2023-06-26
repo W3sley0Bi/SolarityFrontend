@@ -59,6 +59,7 @@ export default function UserFolders() {
                   Uid={Uid}
                   name={item.name}
                   duration={item.duration} 
+                  status={item.status}
                 >
                   {" "}
                 </Folder>
@@ -93,12 +94,11 @@ export default function UserFolders() {
               console.log(res);
               const folders = res.map((item) => (
                 <Folder
-                  closeProjectButtonText={"closing in progress..."}
-                  disabled={true}
                   key={item.idProject}
                   id={item.idProject}
                   Uid={Uid}
                   name={item.name}
+                  status={item.status}
                 >
                   {" "}
                 </Folder>
@@ -133,12 +133,11 @@ export default function UserFolders() {
               console.log(res);
               const folders = res.map((item) => (
                 <Folder
-                  closeProjectButtonText={"Project Closed"}
-                  disabled={true}
                   key={item.idProject}
                   id={item.idProject}
                   Uid={Uid}
                   name={item.name}
+                  status={item.status}
                 >
                   {" "}
                 </Folder>
@@ -168,30 +167,19 @@ export default function UserFolders() {
               console.log(res);
 
               let folders = res.map((item) => {
-                let disabled;
-                let closeProjectButtonText;
-                let duration;
-                if (item.status === 0) {
-                  disabled = false;
-                  closeProjectButtonText = "Close Project";
-                  duration=item.duration;
-                } else if (item.status === 1) {
-                  disabled = true;
-                  closeProjectButtonText = "closing in progress...";
-                } else if (item.status === 2) {
-                  disabled = true;
-                  closeProjectButtonText = "Project Closed";
-                }
+
+                let duration = item.duration;
+                console.log(item.duration)
+                console.log(item.status)
 
                 return (
                   <Folder
-                    disabled={disabled}
-                    closeProjectButtonText={closeProjectButtonText}
                     key={item.idProject}
                     id={item.idProject}
                     Uid={Uid}
                     name={item.name}
                     duration={duration}
+                    status={item.status}
                   ></Folder>
                 );
               });

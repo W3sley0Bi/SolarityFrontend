@@ -1,0 +1,309 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Photovoltaic System Report - [Startdate] - [EndDate]</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <style>
+      /* CSS styles for the report */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .label-container {
+        margin-bottom: 20px;
+      }
+
+      .label-container label {
+        font-weight: bold;
+        display: inline-block;
+        width: 120px;
+      }
+
+      .separator {
+        margin-top: 20px;
+        border-top: 2px solid #000;
+      }
+
+      .section-title {
+        font-weight: bold;
+        font-size: 24px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .product {
+        margin-bottom: 20px;
+      }
+
+      .product label {
+        font-weight: bold;
+        display: block;
+      }
+
+      .chart-container {
+        width: 90%;
+        height: 800px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="reportTitle">
+      Photovoltaic System Report - [Startdate] - [EndDate]
+    </h1>
+
+    <div class="label-container">
+      <label>Project ID:</label>
+      <spanid id="projID">ABC123</span>
+    </div>
+
+    <div class="label-container">
+      <label>Project Name:</label>
+      <span id="projName">Sample Project</span>
+    </div>
+
+    <div class="separator"></div>
+
+    <h2 class="section-title">Products Overview</h2>
+
+    <div id="products-container"></div>
+
+    <script>
+      // Example data array
+
+       const dataArray = eval('[{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-05-24T22:00:00.000Z","pvoutput":994.3676666204225,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-05-25T22:00:00.000Z","pvoutput":994.9943470695055,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-05-26T22:00:00.000Z","pvoutput":994.0195577204238,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-05-27T22:00:00.000Z","pvoutput":991.3555497273837,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-05-28T22:00:00.000Z","pvoutput":998.3049645819525,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-05-29T22:00:00.000Z","pvoutput":1352.701252298603,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-05-30T22:00:00.000Z","pvoutput":2408.3661360316387,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-05-31T22:00:00.000Z","pvoutput":986.1813577450824,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-01T22:00:00.000Z","pvoutput":981.6776113998305,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-02T22:00:00.000Z","pvoutput":2927.063471656243,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-03T22:00:00.000Z","pvoutput":1015.899743632729,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-04T22:00:00.000Z","pvoutput":988.1318687258588,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-05T22:00:00.000Z","pvoutput":996.8310142565996,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-06T22:00:00.000Z","pvoutput":1000.5196039938863,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-07T22:00:00.000Z","pvoutput":992.7454409525367,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-08T22:00:00.000Z","pvoutput":994.0634524742824,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-09T22:00:00.000Z","pvoutput":993.2009830223988,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-10T22:00:00.000Z","pvoutput":999.5099100137319,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-11T22:00:00.000Z","pvoutput":999.9580912653462,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-12T22:00:00.000Z","pvoutput":1139.4684953309443,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-13T22:00:00.000Z","pvoutput":996.8793373723454,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-14T22:00:00.000Z","pvoutput":1000.1926699433416,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-15T22:00:00.000Z","pvoutput":2553.661314012441,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-16T22:00:00.000Z","pvoutput":2907.5390822731288,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-17T22:00:00.000Z","pvoutput":988.007824696945,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-18T22:00:00.000Z","pvoutput":2456.013155678533,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-19T22:00:00.000Z","pvoutput":1227.8144809703394,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-20T22:00:00.000Z","pvoutput":999.3225709452946,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-21T22:00:00.000Z","pvoutput":1009.5687146713092,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-22T22:00:00.000Z","pvoutput":998.1585741990241,"lon":140.371,"lat":36.384,"idProject":32},{"email":"obi.wesley.giovanni@gmail.com","field_product_id":62,"orientation":"W","tilt":45,"company_product_name":"Jinko Tiger Neo","projName":"Mensa Solar","energy_date":"2023-06-23T22:00:00.000Z","pvoutput":990.9388867028639,"lon":140.371,"lat":36.384,"idProject":32}]')
+
+      
+
+      // for (var i = 0; i < jsonData.counters.length; i++) {
+      //   var counter = jsonData.counters[i];
+      //   console.log(counter.counter_name);
+
+      // Group data by field_product_id and create an array of energy_dates and pvoutputs
+      const groupedData = dataArray.reduce((groups, data) => {
+        const { field_product_id, energy_date, pvoutput, ...otherValues} = data;
+        if (!groups[field_product_id]) {
+          groups[field_product_id] = { energy_dates: [], pvoutputs: [], ...otherValues};
+        }
+        groups[field_product_id].energy_dates.push(energy_date);
+        groups[field_product_id].pvoutputs.push(pvoutput);
+        return groups;
+      }, {});
+
+      // Convert the grouped data object to an array
+      const groupedArray = Object.entries(groupedData).map(
+        ([field_product_id, values]) => ({
+          field_product_id: parseInt(field_product_id),
+          ...values
+
+        })
+      );
+
+
+
+      // Print the grouped array
+      console.log(groupedArray);
+
+      // JavaScript function to render products
+      function renderProducts(groupedArray) {
+        const productsContainer = document.getElementById("products-container");
+
+        groupedArray.forEach((product) => {
+          const productDiv = document.createElement("div");
+          productDiv.className = "product";
+
+          const productInfoDiv = document.createElement("div");
+          productInfoDiv.className = "product-info";
+
+          const productNameLabel = document.createElement("label");
+          productNameLabel.textContent = "Company Product Name:";
+          productInfoDiv.appendChild(productNameLabel);
+
+          const productNameSpan = document.createElement("span");
+          productNameSpan.textContent = product.company_product_name;
+          productInfoDiv.appendChild(productNameSpan);
+
+          const tiltAngleLabel = document.createElement("label");
+          tiltAngleLabel.textContent = "Tilt Angle:";
+          productInfoDiv.appendChild(tiltAngleLabel);
+
+          const tiltAngleSpan = document.createElement("span");
+          tiltAngleSpan.textContent = product.tilt + "°";
+          productInfoDiv.appendChild(tiltAngleSpan);
+
+          const orientationLabel = document.createElement("label");
+          orientationLabel.textContent = "Orientation:";
+          productInfoDiv.appendChild(orientationLabel);
+
+          const orientationSpan = document.createElement("span");
+          let orient;
+          if(product.orientation === "S")
+            orient = "South"
+          else if(product.orientation === "E")
+            orient = "East"
+          else if(product.orientation === "W")
+            orient = "West"
+          else if(product.orientation === "N")
+            orient = "North"
+          
+          orientationSpan.textContent = orient;
+          productInfoDiv.appendChild(orientationSpan);
+
+          const longitudeLabel = document.createElement("label");
+          longitudeLabel.textContent = "Longitude:";
+          productInfoDiv.appendChild(longitudeLabel);
+
+          const longitudeSpan = document.createElement("span");
+          longitudeSpan.textContent = product.lon;
+          productInfoDiv.appendChild(longitudeSpan);
+
+          const latitudeLabel = document.createElement("label");
+          latitudeLabel.textContent = "Latitude:";
+          productInfoDiv.appendChild(latitudeLabel);
+
+          const latitudeSpan = document.createElement("span");
+          latitudeSpan.textContent = product.lat;
+          productInfoDiv.appendChild(latitudeSpan);
+          
+
+          productDiv.appendChild(productInfoDiv);
+
+          const separator = document.createElement("hr");
+          productDiv.appendChild(separator);
+
+          const chartContainer = document.createElement("div");
+          chartContainer.className = "chart-container";
+          productDiv.appendChild(chartContainer);
+
+          productsContainer.appendChild(productDiv);
+          var energyOutputData = {
+            labels: dataChange(product.energy_dates),
+            values: product.pvoutputs,
+          };
+
+          const startDate = energyOutputData.labels[0];
+          const endDate =
+            energyOutputData.labels[energyOutputData.labels.length - 1];
+
+          const reportTitle = document.getElementById("reportTitle");
+          reportTitle.textContent = reportTitle.textContent
+            .replace("[Startdate]", startDate)
+            .replace("[EndDate]", endDate);
+
+          const projName = document.getElementById("projName");
+          projName.textContent = dataArray[0]["projName"];
+
+          const projId = document.getElementById("projID");
+          projId.textContent = dataArray[0]["idProject"];
+          // Render the energy output chart for each product
+
+          const maxDateLabel = document.createElement("label");
+          maxDateLabel.textContent = "Maximum Energy Output:";
+          productInfoDiv.appendChild(maxDateLabel);
+          max = 0
+          for(var i = 0; i < energyOutputData.values.length; i++){
+            console.log(energyOutputData.values[i])
+            console.log(energyOutputData.values[max])
+            if(energyOutputData.values[i] > energyOutputData.values[max])
+              max = i;
+          }
+
+          const maxDateSpan = document.createElement("span");
+          maxDateSpan.textContent = energyOutputData.labels[max] + " -- " + energyOutputData.values[max].toFixed(2) + " KW-h";
+          productInfoDiv.appendChild(maxDateSpan);
+
+          renderEnergyOutputChart(energyOutputData, chartContainer);
+        });
+      }
+
+      // JavaScript function to render the energy output chart
+      function renderEnergyOutputChart(data, container) {
+        const energyOutputChartElement = document.createElement("canvas");
+        container.appendChild(energyOutputChartElement);
+
+        const energyOutputData = {
+          labels: data.labels,
+          datasets: [
+            {
+              label: "Energy Output (kWh)",
+              data: data.values,
+              backgroundColor: "rgba(75, 192, 192, 0.8)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1,
+            },
+          ],
+        };
+        const energyOutputChartOptions = {
+          responsive: true,
+          interaction: {
+            mode: "index",
+            intersect: false,
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 3,
+              stepSize: 10,
+              title: {
+                display: true,
+                text: "Kilowatt-hours",
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Date",
+              },
+            },
+          },
+          plugins: {
+            zoom: {
+              zoom: {
+                wheel: {
+                  enabled: true,
+                },
+                pinch: {
+                  enabled: true,
+                },
+                mode: "xy",
+              },
+            },
+          },
+        };
+        const energyOutputChart = new Chart(energyOutputChartElement, {
+          type: "bar",
+          data: energyOutputData,
+          options: energyOutputChartOptions,
+        });
+      }
+
+      function dataChange(dates) {
+        var a = [];
+        dates.forEach((datesie) => {
+          const date = new Date(datesie);
+
+          // Format the date object into the desired format
+          const formattedDate = date.toLocaleDateString("en-GB", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          });
+          a.push(formattedDate);
+        });
+        return a;
+      }
+
+      // Render the products
+      renderProducts(groupedArray);
+    </script>
+  </body>
+</html>

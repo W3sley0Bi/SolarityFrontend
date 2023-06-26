@@ -14,6 +14,7 @@ export default function NavbarComp(){
     const role = useSelector((state) => state.role.value);
     const [userImg,setUserImg] = useState("")
     const [userReg,setUserReg] = useState("")
+    const [showSync,setShowSync] = useState(false)
     const [logo,setLogo] = useState({filter:"none"})
     const router = useRouter()
     const { setTheme } = useNextTheme();
@@ -36,6 +37,11 @@ export default function NavbarComp(){
             let buttonReg = <Navbar.Link onClick={()=> router.push("/Registration")}>User Registration</Navbar.Link>
             setUserReg(buttonReg)
         }
+
+        if(role == 2 || role == 3){
+          setShowSync(true)
+        }
+        
 
         if(localStorage.getItem('theme')=="dark"){
           setLogo({filter:"invert(1)"})
@@ -95,14 +101,14 @@ export default function NavbarComp(){
           }>
           <img src="	https://cdn-icons-png.flaticon.com/512/553/553416.png" width="20px" alt="" />
           </div>  
-          <div  onClick={()=> location.reload()} className="backButton" style={{
+          { showSync && (<div  onClick={()=> location.reload()} className="backButton" style={{
                 border: "2px solid",
                 borderRadius: "23px",
                 padding: "6px 6px 0px 6px"
             }
           }>
-          <img src="https://cdn-icons-png.flaticon.com/512/179/179407.png" width="20px" alt="" />
-          </div>  
+          <img src="https://cdn-icons-png.flaticon.com/512/179/179407.png" width="20px" alt="" title="Sync Weather" />
+          </div>)}
             <Navbar.Content
               enableCursorHighlight
               activeColor="primary"

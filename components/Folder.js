@@ -11,6 +11,13 @@ export default function Folder(prop) {
   const token = useSelector((state) => state.token.value);
   const [deleteButton, setDeleteButton] = useState();
   const [editButton, setEditButton] = useState();
+  const [stat, setStatus] = useState(prop.status)
+
+  async function showReport(pid){
+    const res = await fetchFun(`/getReport/${pid}`, "GET", {}, token);
+    var newWindow = window.open();
+    newWindow.document.write(res.content);
+  }
 
   async function deleteProject(id) {
     let conf = confirm("Are you sure you wanna delete the project?");
@@ -94,7 +101,6 @@ export default function Folder(prop) {
   return (
     <>
       <Row>
-        {editButton}
         <Container
           key={prop.id}
           style={{
@@ -127,16 +133,33 @@ export default function Folder(prop) {
             </div>
           </Link>
 
-          <Button
-            disabled={prop.disabled}
+          {stat === 0 && (<Button
+            disabled={false}
+            color="warning"
             onClick={() => startClosingProcess(prop.id,prop.duration)}
             style={{ float: "right", marginTop: "3%" }}
           >
             {" "}
-            {prop.closeProjectButtonText}{" "}
-          </Button>
+            {"Close Project"}{" "}
+          </Button>)}
+          {stat === 1 && (<Button
+            disabled={true}
+            style={{ float: "right", marginTop: "3%" }}
+          >
+            {" "}
+            {"Calculation in process"}{" "}
+          </Button>)}
+          {stat === 2 && (<Button
+            disabled={false}
+            style={{ float: "right", marginTop: "3%" }}
+            onClick={(() => showReport(prop.id))}
+          >
+            {" "}
+            {"Show Report"}{" "}
+          </Button>)}
         </Container>
-        {deleteButton}
+        {stat == 0 && deleteButton}
+        {stat === 0 && editButton}
       </Row>
     </>
   );
