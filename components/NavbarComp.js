@@ -66,8 +66,6 @@ export default function NavbarComp(){
         const collapseItems = [
             "Home",
             "Profile",
-            "Company",
-            "Help & Feedback",
             "Log Out",
           ];
     
@@ -132,8 +130,7 @@ export default function NavbarComp(){
               <Navbar.Link onClick={() => router.push("/")}>Home</Navbar.Link>
               {userReg}
               <Navbar.Link href={`${process.env.NEXT_PUBLIC_NODE_SERVER}/api-docs/`}  target="_blank">APIs Docs</Navbar.Link>
-              <Navbar.Link href="https://lk-distribution.fr/" target="_blank">Company</Navbar.Link>
-    
+            
             </Navbar.Content>
          
             <Navbar.Content
@@ -207,12 +204,6 @@ export default function NavbarComp(){
                         break;
                       case "Home":
                         router.push("/")
-                          break;
-                      case "Company":
-                        window.open(`https://lk-distribution.fr/`)
-                          break;
-                      case "Help & Feedback":
-                        window.location.replace(`mailto:roadstore.noreply@gmail.com`)
                           break;
                       
                           
