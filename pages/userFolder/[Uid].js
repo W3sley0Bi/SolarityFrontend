@@ -52,7 +52,7 @@ export default function UserFolders() {
           if (res === 401) {
             router.push("/Login");
           } else {
-            if (res.length == 1 && role == 2) {
+            if (res.length >= 1 && role == 2) {
               setDisbaleButton(true);
               setRedirectButtonText("Upgrade account for more projects");
             }
