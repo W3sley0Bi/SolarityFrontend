@@ -21,9 +21,9 @@ export default function UserFolders() {
   const role = useSelector((state) => state.role.value);
   const [addFolder, setAddFolder] = useState();
   const [activePage, setActivePage] = useState(1);
-  const [activePageText, setActivePageText] = useState();
-  const [disbaleButton, setDisbaleButton] = useState();
-  const [redirectButtonText, setRedirectButtonText] = useState();
+  const [activePageText, setActivePageText] = useState(1);
+  const [disbaleButton, setDisbaleButton] = useState(false);
+  const [redirectButtonText, setRedirectButtonText] = useState("Create Project");
 
   function handlePageChange(page) {
     setActivePage(page);
