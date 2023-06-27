@@ -23,7 +23,23 @@ export default function Content() {
   const [contentShowed, setConent] = useState();
 
 
-  // map
+  async function editContent(obj,value){
+    const data = prompt(value)
+    
+    if (data) {
+      if(!obj.name){
+        obj.data = data*1
+      }else{
+        obj.data = data
+      }
+      obj.product_id = Content
+      
+      const res = await fetchFun("/modifyCompanyData", "POST", obj, token);
+      alert(res.message)
+      window.location.reload(false)
+    }
+
+  }
 
   const DynamicMap = dynamic(() => import("../../../components/Map"), {
     ssr: false,
@@ -31,7 +47,6 @@ export default function Content() {
 
   useEffect(() => {
     if (!router.isReady) return;
-  
     (async () => {
       if (role == 2 || role == 3 ) {
         const res = await fetchFun(
@@ -43,21 +58,6 @@ export default function Content() {
         if (res === 401) {
           router.push("/Login");
         }else{
-        const content = res.result.map((item) => {
-          return(
-          <div key={item.company_product_id} >
-        <p>company_product_id: {item.company_product_id}</p>
-        <p>field_product_id: {item.field_product_id}</p>
-        <p>latitude: {item.lat}</p>
-        <p>longitude: {item.lon}</p>
-        <p>orientation: {item.orientation}</p>
-        <p>project_id: {item.project_id}</p>
-        <p>tilt: {item.tilt}</p>
-        <p>utc_offset: {item.utc_offset}</p>
-        </div>
-        )
-        })
-        setConent(content)
         setShowMap(
           <>
             <DynamicMap products={res["result"]}></DynamicMap>
@@ -74,15 +74,21 @@ export default function Content() {
             if (res.length > 0) {
               
               const companyContent = res.map((item) => (
+        
                 <div key={item.product_id}>
-                  <p>id: {item.product_id}</p>
-                  <p>name : {item.name}</p>
-                  <p>area: {item.area}</p>
-                  <p>nominal_temp: {item.nominal_temp}</p>
-                  <p>peakpower: {item.peakpower}</p>
-                  <p>provider_id: {item.provider_id}</p>
-                  <p>system_loss: {item.system_loss}</p>
-                  <p>temp_coff: {item.temp_coff}</p>
+                  <p>id: {item.product_id}   </p>
+                  <br/>
+                  <p>name : {item.name} - <button onClick={()=> editContent({name: item.name}, 'edit')}>modify</button>  </p>
+                  <br/>
+                  <p>area: {item.area} - <button onClick={()=> editContent({area: item.area}, 'edit')}>modify</button>  </p>
+                  <br/>
+                  <p>nominal_temp: {item.nominal_temp} - <button onClick={()=> editContent({nominal_temp: item.nominal_temp}, 'edit')}>modify</button>  </p>
+                  <br/>
+                  <p>peakpower: {item.peakpower} - <button onClick={()=> editContent({peakpower:item.peakpower}, 'edit')}>modify</button>  </p>
+                  <br/>
+                  <p>system_loss: {item.system_loss} - <button onClick={()=> editContent({system_loss: item.system_loss}, 'edit')}>modify</button>  </p>
+                  <br/>
+                  <p>temp_coff: {item.temp_coff} - <button onClick={()=> editContent({temp_coff :item.temp_coff}, 'edit')}>modify</button>  </p>
                 </div>
               ));
               setConent(companyContent);

@@ -21,9 +21,10 @@ export default function UserFolders() {
   const role = useSelector((state) => state.role.value);
   const [addFolder, setAddFolder] = useState();
   const [activePage, setActivePage] = useState(1);
-  const [activePageText, setActivePageText] = useState(1);
+  const [activePageText, setActivePageText] = useState();
   const [disbaleButton, setDisbaleButton] = useState(false);
   const [redirectButtonText, setRedirectButtonText] = useState("Create Project");
+  const [slider, setSlider] = useState(true);
 
   function handlePageChange(page) {
     setActivePage(page);
@@ -231,6 +232,7 @@ export default function UserFolders() {
           }
         }
       } else if (role == 4) {
+        setSlider(false)
         const res = await fetchFun(`/companyFolder/${Uid}`, "GET", {}, token);
         if (res === 401) {
           router.push("/Login");
@@ -296,7 +298,8 @@ export default function UserFolders() {
               justifyContent: "center",
             }}
           >
-            <Pagination total={4} onChange={handlePageChange} initialPage={1} />
+           {slider == true? (<Pagination total={4} onChange={handlePageChange} initialPage={1} />): null}
+           
           </div>
           <br />
           <br />

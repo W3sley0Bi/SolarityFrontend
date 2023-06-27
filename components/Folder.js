@@ -10,6 +10,7 @@ export default function Folder(prop) {
   const role = useSelector((state) => state.role.value);
   const token = useSelector((state) => state.token.value);
   const [deleteButton, setDeleteButton] = useState();
+  const [deleteButtonCompany, setDeleteButtonCompany] = useState()
   const [editButton, setEditButton] = useState();
   const [stat, setStatus] = useState(prop.status)
 
@@ -82,7 +83,7 @@ export default function Folder(prop) {
         </>
       );
     } else {
-      setDeleteButton(
+      setDeleteButtonCompany(
         <>
           {" "}
           <Spacer y={0.5} />
@@ -160,6 +161,7 @@ export default function Folder(prop) {
         </Container>
         {stat == 0 && deleteButton}
         {stat === 0 && editButton}
+        {deleteButtonCompany}
       </Row>
     </>
   );
