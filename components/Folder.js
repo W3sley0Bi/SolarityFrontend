@@ -51,7 +51,7 @@ export default function Folder(prop) {
     /* to do 
       - check if the prop.status is 0
       */
-    if ((role == 1 || prop.Uid == uid) && role != 4) {
+    if (role != 4) {
       setDeleteButton(
         <>
           {" "}
