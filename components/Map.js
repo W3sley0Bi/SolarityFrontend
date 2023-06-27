@@ -16,6 +16,8 @@ import NewProduct from "../components/NewProduct";
 import UpdateProduct from "../components/UpdateProduct";
 import { fetchFun } from "../js/fetchFun";
 import { useRouter } from "next/router";
+import { useTheme } from 'next-themes'
+
 
 export default function showMap(props) {
   const [addedMarker, setAddedMarker] = useState(null);
@@ -35,6 +37,7 @@ export default function showMap(props) {
   const [companyProducts, setCompanyProducts] = useState([]);
   const [userProducts, setUserProducts] = useState(props.products);
   const [errorMsg, setErrorMsg] = useState("No Location Was Found");
+  const { isDark, type } = useTheme();
 
   useEffect(() => {
     getProducts();
@@ -187,8 +190,8 @@ export default function showMap(props) {
         {addedMarker !== null && (
           <Marker position={[addedMarker.lat, addedMarker.lng]}>
             <Popup>
-              <Text>Latitude: {addedMarker.lat} </Text>
-              <Text>Longitude: {addedMarker.lng}</Text>
+              <Text color="success"><b>Latitude:</b> {addedMarker.lat} </Text>
+              <Text color="success"><b>Longitude:</b> {addedMarker.lng}</Text>
               <Button
                 size="xs"
                 color="primary"
@@ -210,10 +213,11 @@ export default function showMap(props) {
               <Popup>
                 <Grid.Container gap={1}>
                   <Grid>
-                    <Text b>Latitude: {product.lat}</Text>
-                  </Grid>
-                  <Grid>
-                    <Text b>Longitude: {product.lon}</Text>
+                    <Text color={isDark ? "success" : ""}><b>Product ID:</b> {product.field_product_id}</Text>
+                    <Text color={isDark ? "success" : ""}><b>Longitude:</b> {product.lon}</Text>
+                    <Text color={isDark ? "success" : ""}><b>Longitude:</b> {product.lon}</Text>
+                    <Text color={isDark ? "success" : ""}><b>Tilt:</b> {product.tilt + "°"}</Text>
+                    <Text color={isDark ? "success" : ""}><b>Orinetation:</b> {product.orientation}</Text>
                   </Grid>
                   <Grid>
                     <Popover placement="top">
