@@ -158,9 +158,16 @@ export default function Folder(prop) {
             {" "}
             {"Show Report"}{" "}
           </Button>)}
+          {stat === 4 && (<Button
+            disabled={true}
+            style={{ float: "right", marginTop: "3%" }}
+          >
+            {" "}
+            {"No Products In Project"}{" "}
+          </Button>)}
         </Container>
-        {stat == 0 && deleteButton}
-        {stat === 0 && editButton}
+        {(stat === 0 || stat == 4) && deleteButton}
+        {(stat === 0 || stat == 4) && editButton}
         {deleteButtonCompany}
       </Row>
     </>

@@ -88,7 +88,7 @@ export default function UserFolders() {
                     Uid={Uid}
                     name={item.name}
                     duration={item.duration}
-                    status={item.status}
+                    status={item.count > 0 ? item.status : 4}
                   >
                     {" "}
                   </Folder>
@@ -209,7 +209,7 @@ export default function UserFolders() {
                     Uid={Uid}
                     name={item.name}
                     duration={duration}
-                    status={item.status}
+                    status={(item.status == 0 && item.count == 0) ? 4: item.status}
                   ></Folder>
                 );
               });
